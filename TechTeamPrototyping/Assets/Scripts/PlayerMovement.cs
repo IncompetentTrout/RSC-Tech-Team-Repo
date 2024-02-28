@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float gravity;
+
     private PlayerInputActions playerInputActions;
     private Rigidbody rb;
 
@@ -18,7 +20,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float moveValue = playerInputActions.Player.Movement.ReadValue<float>();
-        print(moveValue);
+        HandleGravity();
+    }
+
+    private void HandleGravity() 
+    {
+        rb.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
     }
 }
