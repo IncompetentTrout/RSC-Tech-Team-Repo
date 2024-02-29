@@ -4,17 +4,47 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    [SerializeField] private float gravity;
-
+    // private members
     private PlayerInputActions _playerInputActions;
+    private PlayerBaseState _currentState;
+    private PlayerStateFactory _states;
     private Rigidbody _rigidbody;
     private float _moveAcceleration = 5f;
+    private float _gravity;
+
+    // public accessors
+
+    public PlayerInputActions PlayerInputActions { 
+        get { return _playerInputActions; }  
+        private set { _playerInputActions = value; } 
+    }
+
+    public PlayerBaseState CurrentState {  
+        get { return _currentState; } 
+        set { _currentState = value; } 
+    }
+
+    public PlayerStateFactory States { 
+        get {return _states; } 
+        private set { _states = value; } 
+    }
+
+    public Rigidbody Rigidbody { 
+        get { return _rigidbody; } 
+        private set { _rigidbody = value; } 
+    }
+
+    public float MoveAcceleration { 
+        get { return _moveAcceleration; } 
+        private set { _moveAcceleration = value; } 
+    }
+
+    public float Gravity { 
+        get { return _gravity; } 
+        private set { _gravity = value; } 
+    }
 
 
-    private PlayerBaseState _currentState;
-    public PlayerBaseState CurrentState {  get { return _currentState; } set { _currentState = value; } }
-
-    private PlayerStateFactory _states;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -27,7 +57,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     void FixedUpdate()
     {
-        CurrentState.UpdateStates();
+        CurrentState.FixedUpdateStates();
         //HandleGravity();
         //Movement();
     }
