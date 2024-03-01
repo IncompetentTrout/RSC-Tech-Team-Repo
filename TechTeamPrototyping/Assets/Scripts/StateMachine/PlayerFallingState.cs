@@ -19,21 +19,28 @@ public class PlayerFallingState : PlayerBaseState
         CheckSwitchingState();
     }
 
-    public override void FixedUpdateState()
-    {
+    public override void FixedUpdateState(){
+        HandleGravity();
     }
 
     public override void ExitState() { }
 
-    public override void CheckSwitchingState() { }
-
-    public override void InitialiseSubState()
-    {
-        SetSubState(_factory.Idle());
+    public override void CheckSwitchingState() {
+        if (_context.IsGrounded) {
+            SwitchState(_factory.Grounded());
+        }
     }
 
+    public override void InitialiseSubState() {
+        if (_context.MoveInput == 0) {
+            SetSubState(_factory.Idle());
+        }
+        else {
+            SetSubState(_factory.Moving());
+        }
+    }
 
-    //private void HandleGravity() {
-    //    _rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
-    //}
+    private void HandleGravity() {
+        _context.Rigidbody.AddForce(Vector3.down * _context.AirborneGravity, ForceMode.Acceleration);
+    }
 }

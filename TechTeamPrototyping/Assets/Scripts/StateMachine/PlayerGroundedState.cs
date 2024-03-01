@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Scripting;
 
 public class PlayerGroundedState : PlayerBaseState
 {
@@ -24,7 +22,16 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void ExitState() {}
 
-    public override void CheckSwitchingState() {}
+    public override void CheckSwitchingState() {
+        if (_context.IsGrounded && _context.IsJumpPressed) {
+            SwitchState(_factory.Jumping());
+        }
+        else if (!_context.IsGrounded && !_context.IsJumpPressed) {
+            SwitchState(_factory.Falling());
+        }
+
+
+    }
 
     public override void InitialiseSubState() {
         if (_context.MoveInput == 0) {

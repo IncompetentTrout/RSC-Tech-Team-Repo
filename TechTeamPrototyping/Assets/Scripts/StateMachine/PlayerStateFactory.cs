@@ -12,7 +12,7 @@ public class PlayerStateFactory // Middleman to help with managing states
     }
     
     public PlayerBaseState Jumping() {
-        return new PlayerGroundedState(_context, this);
+        return new PlayerJumpingState(_context, this);
     }
 
     public PlayerBaseState Falling() {

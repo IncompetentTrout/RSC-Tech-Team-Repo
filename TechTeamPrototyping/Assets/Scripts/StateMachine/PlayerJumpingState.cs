@@ -13,6 +13,7 @@ public class PlayerJumpingState : PlayerBaseState
 
     public override void EnterState() {
         Debug.Log("now Jumping");
+        HandleJumping();
     }
 
     public override void UpdateState() {
@@ -20,19 +21,32 @@ public class PlayerJumpingState : PlayerBaseState
     }
 
     public override void FixedUpdateState() {
+        HandleGravity();
     }
 
     public override void ExitState() { }
 
-    public override void CheckSwitchingState() { }
-
-    public override void InitialiseSubState()
-    {
-        SetSubState(_factory.Idle());
+    public override void CheckSwitchingState() {
+        if (_context.Rigidbody.velocity.y < 0) {
+            SwitchState(_factory.Falling());
+        }
     }
 
+    public override void InitialiseSubState() {
+        if (_context.MoveInput == 0) {
+            SetSubState(_factory.Idle());
+        }
+        else {
+            SetSubState(_factory.Moving());
+        }
+    }
 
-    //private void HandleGravity() {
-    //    _rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
-    //}
+    private void HandleJumping() {
+        float jumpForce = _context.JumpHeight;
+        _context.Rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+    }
+
+    private void HandleGravity() {
+        _context.Rigidbody.AddForce(Vector3.down * _context.AirborneGravity, ForceMode.Acceleration);
+    }
 }
