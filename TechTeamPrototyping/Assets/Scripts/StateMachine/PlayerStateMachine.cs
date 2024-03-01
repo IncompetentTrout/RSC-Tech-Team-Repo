@@ -8,10 +8,10 @@ public class PlayerStateMachine : MonoBehaviour
 {
     // Private members
     //  Inspector editable
-    [SerializeField] private float _groundedGravity;
-    [SerializeField] private float _airborneGravity;
-    [SerializeField] private float _jumpHeight;
-    [SerializeField] private float _moveAcceleration;
+    [SerializeField] [Range(1, 100)] private float _groundedGravity;
+    [SerializeField] [Range(1, 100)] private float _airborneGravity;
+    [SerializeField] [Range(1, 100)] private float _jumpHeight;
+    [SerializeField] [Range(1, 100)] private float _moveAcceleration;
 
     //  Hidden
     private PlayerInputActions _playerInputActions;
@@ -33,7 +33,7 @@ public class PlayerStateMachine : MonoBehaviour
     public float JumpHeight { get { return _jumpHeight; } }
     public float MoveAcceleration { get { return _moveAcceleration; } }
     public float MoveInput { get { return _moveInput; } }
-    public bool IsJumpPressed {  get { return _isJumpPressed; } }
+    public bool IsJumpPressed {  get { return _isJumpPressed; } set { _isJumpPressed = value; } }
     public bool IsGrounded {  get { return _isGrounded; } }
 
     #region Monobehaviours

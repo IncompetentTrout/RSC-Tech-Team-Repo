@@ -42,7 +42,9 @@ public class PlayerJumpingState : PlayerBaseState
     }
 
     private void HandleJumping() {
-        float jumpForce = _context.JumpHeight;
+        _context.IsJumpPressed = false;
+
+        float jumpForce = Mathf.Sqrt(2 * _context.AirborneGravity * _context.JumpHeight);
         _context.Rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }
 
