@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    // private members
+    //
+    // Private members
+    //
+    [SerializeField] private float _groundedGravity;
+    [SerializeField] private float _moveAcceleration;
+
     private PlayerInputActions _playerInputActions;
     private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
     private Rigidbody _rigidbody;
-    private float _moveAcceleration = 5f;
-    private float _gravity;
+    private float _moveInput = 0f;
 
-    // public accessors
-
+    //
+    // Public accessors
+    //
     public PlayerInputActions PlayerInputActions { 
         get { return _playerInputActions; }  
-        private set { _playerInputActions = value; } 
     }
 
     public PlayerBaseState CurrentState {  
@@ -25,25 +29,26 @@ public class PlayerStateMachine : MonoBehaviour
     }
 
     public PlayerStateFactory States { 
-        get {return _states; } 
-        private set { _states = value; } 
+        get {return _states; }
     }
 
     public Rigidbody Rigidbody { 
         get { return _rigidbody; } 
-        private set { _rigidbody = value; } 
+    }
+
+    public float GroundedGravity { 
+        get { return _groundedGravity; } 
     }
 
     public float MoveAcceleration { 
         get { return _moveAcceleration; } 
-        private set { _moveAcceleration = value; } 
     }
 
-    public float Gravity { 
-        get { return _gravity; } 
-        private set { _gravity = value; } 
+    public float MoveInput {
+        get { return _moveInput; }
     }
 
+    #region Monobehaviours
 
     private void Awake()
     {
@@ -55,11 +60,15 @@ public class PlayerStateMachine : MonoBehaviour
         _currentState.EnterState();
     }
 
-    void FixedUpdate()
+    private void Update()
+    {
+        _moveInput = _playerInputActions.Player.Movement.ReadValue<float>();
+        CurrentState.UpdateStates();
+    }
+
+    private void FixedUpdate()
     {
         CurrentState.FixedUpdateStates();
-        //HandleGravity();
-        //Movement();
     }
 
     private void OnEnable()
@@ -67,15 +76,9 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInputActions.Player.Enable();
     }
 
-    //private void HandleGravity()
-    //{
-    //    _rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
-    //}
-
-    //private void Movement()
-    //{
-    //    float moveInput = _playerInputActions.Player.Movement.ReadValue<float>();
-    //    _rigidbody.AddForce(Vector3.right * moveInput * _moveAcceleration, ForceMode.Acceleration);
-
-    //}
+    private void OnDisable()
+    {
+        _playerInputActions.Player.Disable();
+    }
+    #endregion
 }

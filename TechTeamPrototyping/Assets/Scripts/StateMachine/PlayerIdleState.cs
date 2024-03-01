@@ -9,19 +9,20 @@ public class PlayerIdleState : PlayerBaseState
         Debug.Log("now Idle");
     }
 
-    public override void UpdateState() {
-        Debug.Log("still Idle");
+    public override void UpdateState() { 
         CheckSwitchingState();
     }
 
     public override void FixedUpdateState() {
-        Debug.Log("still idle, fixedupdate");
-        CheckSwitchingState();
     }
 
     public override void ExitState() { }
 
-    public override void CheckSwitchingState() { }
+    public override void CheckSwitchingState() { 
+        if (_context.MoveInput != 0) {
+            SwitchState(_factory.Moving());
+        }
+    }
 
     public override void InitialiseSubState() { }
 }

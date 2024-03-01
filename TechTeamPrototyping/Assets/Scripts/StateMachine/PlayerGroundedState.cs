@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Scripting;
 
@@ -14,13 +15,11 @@ public class PlayerGroundedState : PlayerBaseState
     }
 
     public override void UpdateState() {
-        Debug.Log("still Grounded, update");
         CheckSwitchingState();
     }
 
     public override void FixedUpdateState() {
-        Debug.Log("still Grounded, fixedupdate");
-        CheckSwitchingState();
+        HandleGravity();
     }
 
     public override void ExitState() {}
@@ -28,11 +27,15 @@ public class PlayerGroundedState : PlayerBaseState
     public override void CheckSwitchingState() {}
 
     public override void InitialiseSubState() {
-        SetSubState(_factory.Idle());
+        if (_context.MoveInput == 0) {
+            SetSubState(_factory.Idle());
+        } else {
+            SetSubState(_factory.Moving());
+        }
     }
 
 
-    //private void HandleGravity() {
-    //    _rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
-    //}
+    private void HandleGravity() {
+        _context.Rigidbody.AddForce(Vector3.down * _context.GroundedGravity, ForceMode.Acceleration);
+    }
 }
