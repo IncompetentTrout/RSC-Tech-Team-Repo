@@ -14,6 +14,7 @@ public class PlayerMovingState : PlayerBaseState
     }
 
     public override void FixedUpdateState() {
+        HandleMovement();
     }
 
     public override void ExitState() { }
@@ -27,9 +28,9 @@ public class PlayerMovingState : PlayerBaseState
     public override void InitialiseSubState() { }
 
 
-    //private void Movement()
-    //{
-    //    float moveInput = _playerInputActions.Player.Movement.ReadValue<float>();
-    //    _rigidbody.AddForce(Vector3.right * moveInput * _moveAcceleration, ForceMode.Acceleration);
-    //}
+    private void HandleMovement() {
+        if (Mathf.Abs(_context.Rigidbody.velocity.x) >= _context.MaxMoveSpeed) return;
+
+        _context.Rigidbody.AddForce(Vector3.right * _context.MoveInput * _context.MoveAcceleration, ForceMode.Acceleration);
+    }
 }

@@ -49,6 +49,6 @@ public class PlayerJumpingState : PlayerBaseState
     }
 
     private void HandleGravity() {
-        _context.Rigidbody.AddForce(Vector3.down * _context.AirborneGravity, ForceMode.Acceleration);
+        _context.Rigidbody.AddForce(Vector3.down * _context.AirborneGravity * _context.GravityModifier, ForceMode.Acceleration);
     }
 }

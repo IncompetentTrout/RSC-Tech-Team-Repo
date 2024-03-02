@@ -1,3 +1,4 @@
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class PlayerIdleState : PlayerBaseState
@@ -14,6 +15,7 @@ public class PlayerIdleState : PlayerBaseState
     }
 
     public override void FixedUpdateState() {
+        HandleMovement();
     }
 
     public override void ExitState() { }
@@ -25,4 +27,11 @@ public class PlayerIdleState : PlayerBaseState
     }
 
     public override void InitialiseSubState() { }
+
+    private void HandleMovement() {
+        if (Mathf.Abs(_context.Rigidbody.velocity.x) == 0) return;
+        Debug.Log("slowing");
+        _context.Rigidbody.AddForce(Vector3.right * -_context.Rigidbody.velocity.normalized.x * _context.MoveAcceleration
+                                    , ForceMode.Acceleration);
+    }
 }

@@ -6,12 +6,17 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    // Private members
+    //Private members
     //  Inspector editable
-    [SerializeField] [Range(1, 100)] private float _groundedGravity;
-    [SerializeField] [Range(1, 100)] private float _airborneGravity;
-    [SerializeField] [Range(1, 100)] private float _jumpHeight;
-    [SerializeField] [Range(1, 100)] private float _moveAcceleration;
+    //    Jumping
+    [SerializeField] private float _groundedGravity;
+    [SerializeField] private float _airborneGravity;
+    [SerializeField] private float _gravityModifier;
+    [SerializeField] private float _jumpHeight;
+
+    //    Movement
+    [SerializeField] private float _moveAcceleration;
+    [SerializeField] private float _maxMoveSpeed;
 
     //  Hidden
     private PlayerInputActions _playerInputActions;
@@ -30,8 +35,10 @@ public class PlayerStateMachine : MonoBehaviour
     public Rigidbody Rigidbody { get { return _rigidbody; } }
     public float GroundedGravity { get { return _groundedGravity; } }
     public float AirborneGravity { get { return _airborneGravity; } }
+    public float GravityModifier { get { return _gravityModifier; } }
     public float JumpHeight { get { return _jumpHeight; } }
     public float MoveAcceleration { get { return _moveAcceleration; } }
+    public float MaxMoveSpeed { get { return _maxMoveSpeed; } }
     public float MoveInput { get { return _moveInput; } }
     public bool IsJumpPressed {  get { return _isJumpPressed; } set { _isJumpPressed = value; } }
     public bool IsGrounded {  get { return _isGrounded; } }
@@ -83,11 +90,14 @@ public class PlayerStateMachine : MonoBehaviour
     //    float maxDistance = (_collider.bounds.extents.y / 2) + (OFFSET * 10);
     //    _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, Vector3.down, out RaycastHit hitInfo, maxDistance);
 
-    //    if (_isGrounded) {
+    //    if (_isGrounded)
+    //    {
     //        Gizmos.color = Color.red;
     //        Gizmos.DrawRay(_collider.bounds.center, Vector3.down * hitInfo.distance);
     //        Gizmos.DrawWireSphere(_collider.bounds.center + Vector3.down * hitInfo.distance, radius);
-    //    } else {
+    //    }
+    //    else
+    //    {
     //        Gizmos.color = Color.green;
     //        Gizmos.DrawRay(_collider.bounds.center, Vector3.down * maxDistance);
     //        Gizmos.DrawWireSphere(_collider.bounds.center + Vector3.down * maxDistance, radius);
@@ -95,7 +105,7 @@ public class PlayerStateMachine : MonoBehaviour
     //}
     #endregion
 
-  
+
 
     public void CheckIsGrounded() {
         const float OFFSET = 0.01f;
