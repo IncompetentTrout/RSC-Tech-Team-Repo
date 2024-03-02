@@ -41,6 +41,8 @@ public class PlayerFallingState : PlayerBaseState
     }
 
     private void HandleGravity() {
+        if (_context.Rigidbody.velocity.y <= -_context.MaxFallSpeed) return;
+
         _context.Rigidbody.AddForce(Vector3.down * _context.AirborneGravity * _context.GravityModifier, ForceMode.Acceleration);
     }
 }

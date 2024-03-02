@@ -30,8 +30,10 @@ public class PlayerIdleState : PlayerBaseState
 
     private void HandleMovement() {
         if (Mathf.Abs(_context.Rigidbody.velocity.x) == 0) return;
-        Debug.Log("slowing");
-        _context.Rigidbody.AddForce(Vector3.right * -_context.Rigidbody.velocity.normalized.x * _context.MoveAcceleration
-                                    , ForceMode.Acceleration);
+
+        _context.Rigidbody.AddForce(Vector3.right * -_context.Rigidbody.velocity.normalized.x * _context.MoveAcceleration, ForceMode.Acceleration);
+        if (Mathf.Approximately(_context.Rigidbody.velocity.x, 0)) {
+            _context.Rigidbody.velocity = new Vector3(0, _context.Rigidbody.velocity.y, 0);
+        }
     }
 }

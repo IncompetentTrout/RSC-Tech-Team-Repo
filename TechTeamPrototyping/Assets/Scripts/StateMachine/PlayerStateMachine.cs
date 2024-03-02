@@ -12,6 +12,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float _groundedGravity;
     [SerializeField] private float _airborneGravity;
     [SerializeField] private float _gravityModifier;
+    [SerializeField] private float _maxFallSpeed;
     [SerializeField] private float _jumpHeight;
 
     //    Movement
@@ -36,6 +37,7 @@ public class PlayerStateMachine : MonoBehaviour
     public float GroundedGravity { get { return _groundedGravity; } }
     public float AirborneGravity { get { return _airborneGravity; } }
     public float GravityModifier { get { return _gravityModifier; } }
+    public float MaxFallSpeed { get { return _maxFallSpeed; } }
     public float JumpHeight { get { return _jumpHeight; } }
     public float MoveAcceleration { get { return _moveAcceleration; } }
     public float MaxMoveSpeed { get { return _maxMoveSpeed; } }
