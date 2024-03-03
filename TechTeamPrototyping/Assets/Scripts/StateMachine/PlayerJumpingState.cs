@@ -43,7 +43,8 @@ public class PlayerJumpingState : PlayerBaseState
 
     private void HandleJumping() {
         _context.IsJumpPressed = false;
-
+        
+        //calculate the force needed to reach jump height under normal gravity
         float jumpForce = Mathf.Sqrt(2 * _context.AirborneGravity * _context.JumpHeight);
         _context.Rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }

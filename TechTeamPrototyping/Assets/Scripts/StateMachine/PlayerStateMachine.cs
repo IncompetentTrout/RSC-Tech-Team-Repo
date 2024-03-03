@@ -1,22 +1,32 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
+//This script holds and updates the context of the players
 public class PlayerStateMachine : MonoBehaviour
 {
+    #region Variables
     //Private members
     //  Inspector editable
     //    Jumping
+    [Tooltip("Small force to keep the player grounded")]
     [SerializeField] private float _groundedGravity;
+
+    [Tooltip("Acceleration when falling under normal gravity")]
     [SerializeField] private float _airborneGravity;
+
+    [Tooltip("Gravity multiplier, 1 = normal")]
     [SerializeField] private float _gravityModifier;
+
+    [Tooltip("Terminal velocity")]
     [SerializeField] private float _maxFallSpeed;
+
+    [Tooltip("How high the player can jump in units")]
     [SerializeField] private float _jumpHeight;
 
     //    Movement
+    [Tooltip("Acceleration when manually moving")]
     [SerializeField] private float _moveAcceleration;
+
+    [Tooltip("Top Speed")]
     [SerializeField] private float _maxMoveSpeed;
 
     //  Hidden
@@ -44,6 +54,8 @@ public class PlayerStateMachine : MonoBehaviour
     public float MoveInput { get { return _moveInput; } }
     public bool IsJumpPressed {  get { return _isJumpPressed; } set { _isJumpPressed = value; } }
     public bool IsGrounded {  get { return _isGrounded; } }
+
+    #endregion
 
     #region Monobehaviours
 
@@ -106,8 +118,6 @@ public class PlayerStateMachine : MonoBehaviour
     //    }
     //}
     #endregion
-
-
 
     public void CheckIsGrounded() {
         const float OFFSET = 0.01f;
