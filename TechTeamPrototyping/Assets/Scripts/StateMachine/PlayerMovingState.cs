@@ -23,6 +23,9 @@ public class PlayerMovingState : PlayerBaseState
         if(_context.MoveInput == 0) {
             SwitchState(_factory.Idle());
         }
+        if (!_context.IsGrounded && _context.IsMoveBlocked) {
+            SwitchState(_factory.WallCling());
+        }
     }
 
     public override void InitialiseSubState() { }
@@ -32,5 +35,7 @@ public class PlayerMovingState : PlayerBaseState
         if (Mathf.Abs(_context.Rigidbody.velocity.x) >= _context.MaxMoveSpeed) return;
 
         _context.Rigidbody.AddForce(Vector3.right * _context.MoveInput * _context.MoveAcceleration, ForceMode.Acceleration);
+        
+        _context.IsMoveBlocked = (Mathf.Abs(_context.Rigidbody.velocity.x) == 0) ? true: false;
     }
 }

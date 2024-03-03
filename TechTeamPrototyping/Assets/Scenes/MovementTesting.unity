@@ -1237,5 +1237,6 @@ MonoBehaviour:
   _gravityModifier: 1
   _maxFallSpeed: 20
   _jumpHeight: 3
+  _wallJumpSpeed: 10
   _moveAcceleration: 20
   _maxMoveSpeed: 10

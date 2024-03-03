@@ -22,6 +22,9 @@ public class PlayerStateMachine : MonoBehaviour
     [Tooltip("How high the player can jump in units")]
     [SerializeField] private float _jumpHeight;
 
+    [Tooltip("Horizontal speed after a wall jump")]
+    [SerializeField] private float _wallJumpSpeed;
+
     //    Movement
     [Tooltip("Acceleration when manually moving")]
     [SerializeField] private float _moveAcceleration;
@@ -35,8 +38,10 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState _currentState;
     private Rigidbody _rigidbody;
     private Collider _collider;
+    private float _wallClingDirection;
     private float _moveInput = 0f;
     private bool _isJumpPressed;
+    private bool _isMoveBlocked;
     private bool _isGrounded;
 
     // Public accessors
@@ -49,10 +54,13 @@ public class PlayerStateMachine : MonoBehaviour
     public float GravityModifier { get { return _gravityModifier; } }
     public float MaxFallSpeed { get { return _maxFallSpeed; } }
     public float JumpHeight { get { return _jumpHeight; } }
+    public float WallJumpDistance { get { return _wallJumpSpeed; } set { _wallJumpSpeed = value; } }
     public float MoveAcceleration { get { return _moveAcceleration; } }
     public float MaxMoveSpeed { get { return _maxMoveSpeed; } }
+    public float WallClingDirection { get { return _wallClingDirection; } set { _wallClingDirection = value; } }
     public float MoveInput { get { return _moveInput; } }
     public bool IsJumpPressed {  get { return _isJumpPressed; } set { _isJumpPressed = value; } }
+    public bool IsMoveBlocked {  get { return _isMoveBlocked; } set { _isMoveBlocked = value; } }
     public bool IsGrounded {  get { return _isGrounded; } }
 
     #endregion

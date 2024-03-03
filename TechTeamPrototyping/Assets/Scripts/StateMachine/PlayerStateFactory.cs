@@ -26,5 +26,12 @@ public class PlayerStateFactory // Middleman to help with managing states
     public PlayerBaseState Moving() {
         return new PlayerMovingState(_context, this);
     }
+
+    public PlayerBaseState WallCling()
+    {
+        return new PlayerWallClingState(_context, this);
+    }
+
+
 }
 
