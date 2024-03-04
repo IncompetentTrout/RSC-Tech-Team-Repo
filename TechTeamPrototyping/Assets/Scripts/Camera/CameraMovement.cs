@@ -24,6 +24,8 @@ public class CameraMovement : MonoBehaviour
 
     private Camera cam;
 
+    public float smoothTime = 0.3f;
+
     private void Start()
     {
         baseZPos = transform.position.z;

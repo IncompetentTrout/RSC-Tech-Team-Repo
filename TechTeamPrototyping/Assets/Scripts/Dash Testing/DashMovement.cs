@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Using old input system for now
-public class Movement : MonoBehaviour
+public class DashMovement : MonoBehaviour
 {
     #region Components
     [SerializeField] Rigidbody rb;
