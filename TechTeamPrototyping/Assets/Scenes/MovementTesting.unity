@@ -1260,7 +1260,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1765769585}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 984f211b640118d47a0ed3a2fec24c8e, type: 3}
   m_Name: 
@@ -1282,22 +1282,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1765769585}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88c28b5294227a144aa88020c080c5f7, type: 3}
+  m_Script: {fileID: 11500000, guid: dbb03ea0e8ef0e04781cde61ce3e2c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  rb: {fileID: 1765769590}
   moveSpeed: 5
   movement: {x: 0, y: 0, z: 0}
   moveSpeedMultiplier: 1
   dashTime: 0.3
   dashTimer: 0
-  jumpForce: 10
-  groundCheck: {fileID: 1008551455}
-  groundedDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
   canDash: 1
-  canJump: 1
   invincible: 0
   grounded: 1
