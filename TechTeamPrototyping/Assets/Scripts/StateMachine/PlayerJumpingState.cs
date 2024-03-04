@@ -13,7 +13,12 @@ public class PlayerJumpingState : PlayerBaseState
 
     public override void EnterState() {
         Debug.Log("now Jumping");
-        HandleJumping();
+        HandleJumping(); //Apply jump force
+        
+        if (_context.IsGrounded || !_context.IsMoveBlocked) return;
+
+        _context.CurrentJumpHeight = (_context.CurrentJumpHeight - _context.WallJumpPenalty > 0) ? 
+            _context.CurrentJumpHeight - _context.WallJumpPenalty : 0;
     }
 
     public override void UpdateState() {
@@ -45,7 +50,7 @@ public class PlayerJumpingState : PlayerBaseState
         _context.IsJumpPressed = false;
         
         //calculate the force needed to reach jump height under normal gravity
-        float jumpForce = Mathf.Sqrt(2 * _context.AirborneGravity * _context.JumpHeight);
+        float jumpForce = Mathf.Sqrt(2 * _context.AirborneGravity * _context.CurrentJumpHeight);
         _context.Rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }
 

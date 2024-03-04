@@ -10,6 +10,8 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void EnterState() {
         Debug.Log("now Grounded");
+        _context.CurrentJumpHeight = _context.BaseJumpHeight;
+        _context.CurrentWallJumpSpeed = _context.BaseWallJumpSpeed;
     }
 
     public override void UpdateState() {
