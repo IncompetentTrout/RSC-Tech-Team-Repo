@@ -18,6 +18,7 @@ public class Movement : MonoBehaviour
     #region Dash Variables
     [SerializeField] float dashTime = 0.3f;
     [SerializeField] float dashTimer;
+    [SerializeField] float dashForce = 5f;
     #endregion
 
     #region Jump Variables
@@ -48,7 +49,7 @@ public class Movement : MonoBehaviour
         //Standard movemnet stuff
         movement.x = Input.GetAxisRaw("Horizontal");
 
-        rb.MovePosition(rb.position + movement * moveSpeed * moveSpeedMultiplier * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
 
         grounded = Physics.CheckSphere(groundCheck.position, groundedDistance, groundMask);
 
@@ -85,7 +86,14 @@ public class Movement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 canDash = false;
-                moveSpeedMultiplier = 10f;
+                if(movement.x > 0)
+                {
+                    rb.AddForce(Vector3.right * dashForce, ForceMode.Impulse);
+                }
+                else
+                {
+                    rb.AddForce(-Vector3.right * dashForce, ForceMode.Impulse);
+                }
             }
 
         }
@@ -103,7 +111,7 @@ public class Movement : MonoBehaviour
                     canDash = true;
                 }
                 
-                moveSpeedMultiplier = 1f;
+                
             }
         }
     }
