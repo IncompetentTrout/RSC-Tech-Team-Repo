@@ -40,7 +40,7 @@ public class GrappleHook : MonoBehaviour
         {
             GrappleBegin();
         }
-        else if(Input.GetKeyUp(KeyCode.E)) //releases the grapple
+        if(Input.GetKeyUp(KeyCode.E)) //releases the grapple
         {
             GrappleEnd();
         }
