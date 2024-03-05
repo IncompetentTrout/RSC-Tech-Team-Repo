@@ -36,7 +36,6 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float _maxMoveSpeed;
 
     //  Hidden
-    private PlayerInputActions _playerInputActions;
     private PlayerStateFactory _states;
     private PlayerBaseState _currentState;
     private Rigidbody _rigidbody;
@@ -51,7 +50,6 @@ public class PlayerStateMachine : MonoBehaviour
     private bool _isGrounded;
 
     // Public accessors
-    public PlayerInputActions PlayerInputActions { get { return _playerInputActions; } }
     public PlayerStateFactory States { get {return _states; } }
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public Rigidbody Rigidbody { get { return _rigidbody; } }
@@ -86,33 +84,19 @@ public class PlayerStateMachine : MonoBehaviour
         _states = new PlayerStateFactory(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();
-
-        _playerInputActions = new PlayerInputActions();
-        _playerInputActions.Player.Jump.performed += (Action) => { _isJumpPressed = true; }; 
-        _playerInputActions.Player.Jump.canceled += (Action) => { _isJumpPressed = false; }; 
-
     }
 
     private void Update()
     {
-        _moveInput = _playerInputActions.Player.Movement.ReadValue<float>();
-        CurrentState.UpdateStates();
+        IsJumpPressed = Input.GetKeyDown(KeyCode.Space);
+        _moveInput = Input.GetAxisRaw("Horizontal");
         CheckIsGrounded();
+        CurrentState.UpdateStates();
     }
 
     private void FixedUpdate()
     {
         CurrentState.FixedUpdateStates();
-    }
-
-    private void OnEnable()
-    {
-        _playerInputActions.Player.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _playerInputActions.Player.Disable();
     }
 
     //private void OnDrawGizmos()
