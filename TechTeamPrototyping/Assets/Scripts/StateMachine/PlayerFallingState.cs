@@ -29,7 +29,7 @@ public class PlayerFallingState : PlayerBaseState
         if (_context.IsGrounded) {
             SwitchState(_factory.Grounded());
         }
-        else if (_context.IsJumpPressed && _context.CanDoubleJump) {
+        else if (_context.IsJumpPressed && _context.CanDoubleJump && !_context.IsMoveBlocked) {
             _context.CanDoubleJump = false;
             SwitchState(_factory.Jumping());
         }

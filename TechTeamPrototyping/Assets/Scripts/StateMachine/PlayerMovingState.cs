@@ -32,7 +32,7 @@ public class PlayerMovingState : PlayerBaseState
 
 
     private void HandleMovement() {
-        //Stop accellerating at top speed
+        //Stop accelerating at top speed
         if (Mathf.Abs(_context.Rigidbody.velocity.x) >= _context.MaxMoveSpeed) return;
 
         //Apply moving force
