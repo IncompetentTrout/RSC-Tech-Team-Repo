@@ -14,7 +14,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float _airborneGravity;
 
     [Tooltip("Gravity multiplier, 1 = normal")]
-    [SerializeField] private float _gravityModifier;
+    [SerializeField] private float _gravityMagnitude;
 
     [Tooltip("Terminal velocity")]
     [SerializeField] private float _maxFallSpeed;
@@ -40,6 +40,7 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState _currentState;
     private Rigidbody _rigidbody;
     private Collider _collider;
+    private Vector3 _gravityDirection;
     private float _currentWallJumpSpeed;
     private float _currentJumpHeight;
     private float _wallClingDirection;
@@ -53,9 +54,10 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerStateFactory States { get {return _states; } }
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public Rigidbody Rigidbody { get { return _rigidbody; } }
+    public Vector3 GravityDirection { get { return _gravityDirection; } set { _gravityDirection = value; } }
     public float GroundedGravity { get { return _groundedGravity; } }
     public float AirborneGravity { get { return _airborneGravity; } }
-    public float GravityModifier { get { return _gravityModifier; } }
+    public float GravityMagnitude { get { return _gravityMagnitude; } }
     public float MaxFallSpeed { get { return _maxFallSpeed; } }
     public float BaseJumpHeight { get { return _baseJumpHeight; } }
     public float BaseWallJumpSpeed { get { return _baseWallJumpSpeed; } }
@@ -79,6 +81,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
+        _gravityDirection = Vector3.down;
         CheckIsGrounded();
 
         _states = new PlayerStateFactory(this);
@@ -126,5 +129,10 @@ public class PlayerStateMachine : MonoBehaviour
         float radius = _collider.bounds.extents.x - OFFSET;
         float maxDistance = (_collider.bounds.extents.y / 2) + (OFFSET * 10);
         _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, Vector3.down, out RaycastHit hitInfo, maxDistance);
+    }
+
+    public void SetRotation(Quaternion rotation)
+    {
+        transform.rotation = rotation;
     }
 }
