@@ -10,8 +10,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void EnterState() {
         Debug.Log("now Grounded");
-        _context.CurrentJumpHeight = _context.BaseJumpHeight;
-        _context.CurrentWallJumpSpeed = _context.BaseWallJumpSpeed;
+        ResetJumps();
     }
 
     public override void UpdateState() {
@@ -43,8 +42,13 @@ public class PlayerGroundedState : PlayerBaseState
         }
     }
 
-
     private void HandleGravity() {
         _context.Rigidbody.AddForce(_context.GravityDirection * _context.GravityMagnitude * _context.GroundedGravity, ForceMode.Acceleration);
+    }
+
+    private void ResetJumps() {
+        _context.CurrentJumpHeight = _context.BaseJumpHeight;
+        _context.CurrentWallJumpSpeed = _context.BaseWallJumpSpeed;
+        _context.CanDoubleJump = true;
     }
 }

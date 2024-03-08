@@ -35,6 +35,10 @@ public class PlayerJumpingState : PlayerBaseState
     public override void CheckSwitchingState() {
         if (_context.Rigidbody.velocity.y < 0) {
             SwitchState(_factory.Falling());
+        } 
+        else if (_context.IsJumpPressed && _context.CanDoubleJump) {
+            _context.CanDoubleJump = false;
+            SwitchState(_factory.Jumping());
         }
     }
 
@@ -52,6 +56,7 @@ public class PlayerJumpingState : PlayerBaseState
         
         //calculate the force needed to reach jump height under normal gravity
         float jumpForce = Mathf.Sqrt(2 * _context.AirborneGravity * _context.CurrentJumpHeight);
+        jumpForce = (!_context.CanDoubleJump) ? jumpForce * 1.3f : jumpForce;
         _context.Rigidbody.AddForce(-_context.GravityDirection * jumpForce, ForceMode.VelocityChange);
     }
 

@@ -41,14 +41,14 @@ public class PlayerWallClingState : PlayerBaseState
     public override void InitialiseSubState() { }
 
     private void HandleWallJumping() {
-        _context.Rigidbody.AddForce(Vector3.right * -_context.WallClingDirection * _context.CurrentWallJumpSpeed, ForceMode.VelocityChange);
+        _context.Rigidbody.AddForce(_context.transform.right * -_context.WallClingDirection * _context.CurrentWallJumpSpeed, ForceMode.VelocityChange);
 
         //Apply wall-jump penalty
         _context.CurrentWallJumpSpeed *= _context.WallJumpPenalty;
     }
 
     private void HandleMovement() {
-        _context.Rigidbody.AddForce(Vector3.right * _context.MoveInput * _context.WallClingForce, ForceMode.Acceleration);
+        _context.Rigidbody.AddForce(_context.transform.right * _context.MoveInput * _context.WallClingForce, ForceMode.Acceleration);
 
         _context.WallClingForce *= _context.WallJumpPenalty;
 

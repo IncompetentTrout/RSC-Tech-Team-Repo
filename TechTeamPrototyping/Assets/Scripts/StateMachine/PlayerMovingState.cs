@@ -32,10 +32,13 @@ public class PlayerMovingState : PlayerBaseState
 
 
     private void HandleMovement() {
+        //Stop accellerating at top speed
         if (Mathf.Abs(_context.Rigidbody.velocity.x) >= _context.MaxMoveSpeed) return;
 
-        _context.Rigidbody.AddForce(Vector3.right * _context.MoveInput * _context.MoveAcceleration, ForceMode.Acceleration);
-        
+        //Apply moving force
+        _context.Rigidbody.AddForce(_context.transform.right * _context.MoveInput * _context.MoveAcceleration, ForceMode.Acceleration);
+
+        //check if the player is running into a wall
         _context.IsMoveBlocked = (Mathf.Abs(_context.Rigidbody.velocity.x) == 0) ? true: false;
     }
 }

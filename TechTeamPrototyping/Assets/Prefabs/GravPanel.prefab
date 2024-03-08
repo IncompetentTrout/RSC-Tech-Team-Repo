@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1670719926170734159}
   - component: {fileID: 8720266322299402396}
   - component: {fileID: 5514229310463292734}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1843980715669246332}
   - component: {fileID: 3579825475188684464}
   - component: {fileID: 3324157293799688955}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 52431758667034539}
   - component: {fileID: 640842337926575347}
   - component: {fileID: 2485896492581946253}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 109870336724458517}
   - component: {fileID: 911783733508862078}
   - component: {fileID: 5910772905857969826}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GravPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ Transform:
   - {fileID: 1843980715669246332}
   - {fileID: 7529260110041165100}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &911783733508862078
 BoxCollider:
@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 7529260110041165100}
   - component: {fileID: 8010389781870151572}
   - component: {fileID: 6252182683010272319}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -46,6 +46,7 @@ public class PlayerStateMachine : MonoBehaviour
     private float _wallClingDirection;
     private float _wallClingForce;
     private float _moveInput = 0f;
+    private bool _canDoubleJump;
     private bool _isJumpPressed;
     private bool _isMoveBlocked;
     private bool _isGrounded;
@@ -69,6 +70,7 @@ public class PlayerStateMachine : MonoBehaviour
     public float WallClingDirection { get { return _wallClingDirection; } set { _wallClingDirection = value; } }
     public float WallClingForce { get { return _wallClingForce; } set { _wallClingForce = value; } }
     public float MoveInput { get { return _moveInput; } }
+    public bool CanDoubleJump {  get { return _canDoubleJump; } set { _canDoubleJump = value; } }
     public bool IsJumpPressed {  get { return _isJumpPressed; } set { _isJumpPressed = value; } }
     public bool IsMoveBlocked {  get { return _isMoveBlocked; } set { _isMoveBlocked = value; } }
     public bool IsGrounded {  get { return _isGrounded; } }
@@ -107,19 +109,19 @@ public class PlayerStateMachine : MonoBehaviour
     //    const float OFFSET = 0.01f;
     //    float radius = _collider.bounds.extents.x - OFFSET;
     //    float maxDistance = (_collider.bounds.extents.y / 2) + (OFFSET * 10);
-    //    _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, Vector3.down, out RaycastHit hitInfo, maxDistance);
+    //    _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, -transform.up, out RaycastHit hitInfo, maxDistance);
 
     //    if (_isGrounded)
     //    {
     //        Gizmos.color = Color.red;
-    //        Gizmos.DrawRay(_collider.bounds.center, Vector3.down * hitInfo.distance);
-    //        Gizmos.DrawWireSphere(_collider.bounds.center + Vector3.down * hitInfo.distance, radius);
+    //        Gizmos.DrawRay(_collider.bounds.center, -transform.up * hitInfo.distance);
+    //        Gizmos.DrawWireSphere(_collider.bounds.center + -transform.up * hitInfo.distance, radius);
     //    }
     //    else
     //    {
     //        Gizmos.color = Color.green;
-    //        Gizmos.DrawRay(_collider.bounds.center, Vector3.down * maxDistance);
-    //        Gizmos.DrawWireSphere(_collider.bounds.center + Vector3.down * maxDistance, radius);
+    //        Gizmos.DrawRay(_collider.bounds.center, -transform.up * maxDistance);
+    //        Gizmos.DrawWireSphere(_collider.bounds.center + -transform.up * maxDistance, radius);
     //    }
     //}
     #endregion
@@ -128,11 +130,10 @@ public class PlayerStateMachine : MonoBehaviour
         const float OFFSET = 0.01f;
         float radius = _collider.bounds.extents.x - OFFSET;
         float maxDistance = (_collider.bounds.extents.y / 2) + (OFFSET * 10);
-        _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, Vector3.down, out RaycastHit hitInfo, maxDistance);
+        _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, -transform.up, out RaycastHit hitInfo, maxDistance);
     }
 
-    public void SetRotation(Quaternion rotation)
-    {
+    public void SetRotation(Quaternion rotation) {
         transform.rotation = rotation;
     }
 }
