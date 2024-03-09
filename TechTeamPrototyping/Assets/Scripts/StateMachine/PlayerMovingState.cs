@@ -32,13 +32,17 @@ public class PlayerMovingState : PlayerBaseState
 
 
     private void HandleMovement() {
+        _context.HorizontalComponent = _context.Rigidbody.velocity - _context.VerticalComponent;
+
         //Stop accelerating at top speed
-        if (Mathf.Abs(_context.Rigidbody.velocity.x) >= _context.MaxMoveSpeed) return;
+        if (_context.HorizontalComponent.magnitude >= _context.MaxMoveSpeed) return;
 
         //Apply moving force
-        _context.Rigidbody.AddForce(_context.transform.right * _context.MoveInput * _context.MoveAcceleration, ForceMode.Acceleration);
+        Vector3 movingForce = _context.transform.right * _context.MoveInput * _context.MoveAcceleration;
+        _context.Rigidbody.AddForce(movingForce, ForceMode.Acceleration);
+        _context.HorizontalComponent += movingForce * Time.fixedDeltaTime;
 
         //check if the player is running into a wall
-        _context.IsMoveBlocked = (Mathf.Abs(_context.Rigidbody.velocity.x) == 0) ? true: false;
+        _context.IsMoveBlocked = (_context.HorizontalComponent == movingForce * Time.fixedDeltaTime && _context.MoveInput != 0) ? true: false;
     }
 }

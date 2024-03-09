@@ -11,6 +11,7 @@ public class PlayerWallClingState : PlayerBaseState
 
     public override void EnterState() {
         Debug.Log("now Wall Clinging");
+        _context.HorizontalComponent = Vector3.zero;
         _context.WallClingDirection = _context.MoveInput / Mathf.Abs(_context.MoveInput);
         _context.WallClingForce = _context.AirborneGravity;
     }
@@ -41,6 +42,7 @@ public class PlayerWallClingState : PlayerBaseState
     public override void InitialiseSubState() { }
 
     private void HandleWallJumping() {
+        _context.HorizontalComponent = _context.transform.right * -_context.WallClingDirection * _context.CurrentWallJumpSpeed;
         _context.Rigidbody.AddForce(_context.transform.right * -_context.WallClingDirection * _context.CurrentWallJumpSpeed, ForceMode.VelocityChange);
 
         //Apply wall-jump penalty
@@ -49,10 +51,11 @@ public class PlayerWallClingState : PlayerBaseState
 
     private void HandleMovement() {
         _context.Rigidbody.AddForce(_context.transform.right * _context.MoveInput * _context.WallClingForce, ForceMode.Acceleration);
+        _context.HorizontalComponent = _context.Rigidbody.velocity - _context.VerticalComponent;
 
         _context.WallClingForce *= _context.WallJumpPenalty;
 
-        _context.IsMoveBlocked = (Mathf.Abs(_context.Rigidbody.velocity.x) == 0) ? true : false;
+        _context.IsMoveBlocked = (_context.HorizontalComponent.magnitude == 0) ? true : false;
     }
 }
 

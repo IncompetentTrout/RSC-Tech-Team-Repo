@@ -12,6 +12,7 @@ public class PlayerFallingState : PlayerBaseState
     public override void EnterState()
     {
         Debug.Log("now Falling");
+        _context.VerticalComponent = Vector3.zero;
     }
 
     public override void UpdateState()
@@ -45,8 +46,9 @@ public class PlayerFallingState : PlayerBaseState
     }
 
     private void HandleGravity() {
-        if (_context.Rigidbody.velocity.y <= -_context.MaxFallSpeed) return;
+        if (_context.VerticalComponent.y * _context.GravityDirection.y <= 0 && _context.VerticalComponent.magnitude >= _context.MaxFallSpeed) return;
 
+        _context.VerticalComponent += _context.GravityDirection * _context.GravityMagnitude * _context.AirborneGravity * Time.fixedDeltaTime;
         _context.Rigidbody.AddForce(_context.GravityDirection * _context.GravityMagnitude * _context.AirborneGravity, ForceMode.Acceleration);
     }
 }
