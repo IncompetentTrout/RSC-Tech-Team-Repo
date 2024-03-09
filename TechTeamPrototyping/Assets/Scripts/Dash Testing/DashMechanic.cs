@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Using old input system for now
 public class DashMechanic : MonoBehaviour
 {
     #region Components
@@ -9,7 +10,7 @@ public class DashMechanic : MonoBehaviour
     #endregion
 
     #region Movement Variables
-    [SerializeField] float moveSpeed = 1f;
+    [SerializeField] float moveSpeed = 5f;
     [SerializeField] Vector3 movement;
     [SerializeField] float moveSpeedMultiplier = 1f;
     #endregion
@@ -17,10 +18,12 @@ public class DashMechanic : MonoBehaviour
     #region Dash Variables
     [SerializeField] float dashTime = 0.3f;
     [SerializeField] float dashTimer;
+    [SerializeField] float dashForce = 10f;
     #endregion
 
     #region Booleans
     [SerializeField] bool canDash = true;
+    [SerializeField] bool canJump = true;
     [SerializeField] bool invincible = false;
     [SerializeField] bool grounded = true;
     #endregion
@@ -38,10 +41,10 @@ public class DashMechanic : MonoBehaviour
         //Standard movemnet stuff
         movement.x = Input.GetAxisRaw("Horizontal");
 
-        rb.MovePosition(rb.position + movement * moveSpeed * moveSpeedMultiplier * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
 
         Dashing();
-        
+
     }
 
     void Dashing()
@@ -59,7 +62,14 @@ public class DashMechanic : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 canDash = false;
-                moveSpeedMultiplier = 5f;
+                if(movement.x > 0)
+                {
+                    rb.AddForce(Vector3.right * dashForce, ForceMode.Impulse);
+                }
+                else
+                {
+                    rb.AddForce(-Vector3.right * dashForce, ForceMode.Impulse);
+                }
             }
 
         }
@@ -77,7 +87,7 @@ public class DashMechanic : MonoBehaviour
                     canDash = true;
                 }
                 
-                moveSpeedMultiplier = 1f;
+                
             }
         }
     }
