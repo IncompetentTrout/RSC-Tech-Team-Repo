@@ -6,7 +6,6 @@ public class PlayerMovingState : PlayerBaseState
     : base(currentContext, playerStateFactory) { }
 
     public override void EnterState() {
-        Debug.Log("now Moving");
     }
 
     public override void UpdateState() {
