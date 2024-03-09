@@ -33,7 +33,7 @@ public class PlayerIdleState : PlayerBaseState
 
         //Slow down horizontal movement
         _context.Rigidbody.AddForce(Vector3.right * -_context.Rigidbody.velocity.normalized.x * _context.MoveAcceleration, ForceMode.Acceleration);
-
+        
         //minimize sliding
         if (Mathf.Abs(_context.Rigidbody.velocity.x) <= 1) {
             _context.Rigidbody.velocity = new Vector3(0, _context.Rigidbody.velocity.y, 0);

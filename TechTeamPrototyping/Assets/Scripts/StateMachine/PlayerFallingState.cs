@@ -29,6 +29,10 @@ public class PlayerFallingState : PlayerBaseState
         if (_context.IsGrounded) {
             SwitchState(_factory.Grounded());
         }
+        else if (_context.IsJumpPressed && _context.CanDoubleJump && !_context.IsMoveBlocked) {
+            _context.CanDoubleJump = false;
+            SwitchState(_factory.Jumping());
+        }
     }
 
     public override void InitialiseSubState() {
@@ -43,6 +47,6 @@ public class PlayerFallingState : PlayerBaseState
     private void HandleGravity() {
         if (_context.Rigidbody.velocity.y <= -_context.MaxFallSpeed) return;
 
-        _context.Rigidbody.AddForce(Vector3.down * _context.AirborneGravity * _context.GravityModifier, ForceMode.Acceleration);
+        _context.Rigidbody.AddForce(_context.GravityDirection * _context.GravityMagnitude * _context.AirborneGravity, ForceMode.Acceleration);
     }
 }

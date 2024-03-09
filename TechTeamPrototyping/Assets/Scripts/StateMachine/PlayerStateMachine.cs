@@ -14,16 +14,19 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float _airborneGravity;
 
     [Tooltip("Gravity multiplier, 1 = normal")]
-    [SerializeField] private float _gravityModifier;
+    [SerializeField] private float _gravityMagnitude;
 
     [Tooltip("Terminal velocity")]
     [SerializeField] private float _maxFallSpeed;
 
     [Tooltip("How high the player can jump in units")]
-    [SerializeField] private float _jumpHeight;
+    [SerializeField] private float _baseJumpHeight;
 
     [Tooltip("Horizontal speed after a wall jump")]
-    [SerializeField] private float _wallJumpSpeed;
+    [SerializeField] private float _baseWallJumpSpeed;
+
+    [Tooltip("Reduction in consecutive wall jump force")]
+    [SerializeField] private float _wallJumpPenalty;
 
     //    Movement
     [Tooltip("Acceleration when manually moving")]
@@ -33,32 +36,41 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float _maxMoveSpeed;
 
     //  Hidden
-    private PlayerInputActions _playerInputActions;
     private PlayerStateFactory _states;
     private PlayerBaseState _currentState;
     private Rigidbody _rigidbody;
     private Collider _collider;
+    private Vector3 _gravityDirection;
+    private float _currentWallJumpSpeed;
+    private float _currentJumpHeight;
     private float _wallClingDirection;
+    private float _wallClingForce;
     private float _moveInput = 0f;
+    private bool _canDoubleJump;
     private bool _isJumpPressed;
     private bool _isMoveBlocked;
     private bool _isGrounded;
 
     // Public accessors
-    public PlayerInputActions PlayerInputActions { get { return _playerInputActions; } }
     public PlayerStateFactory States { get {return _states; } }
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public Rigidbody Rigidbody { get { return _rigidbody; } }
+    public Vector3 GravityDirection { get { return _gravityDirection; } set { _gravityDirection = value; } }
     public float GroundedGravity { get { return _groundedGravity; } }
     public float AirborneGravity { get { return _airborneGravity; } }
-    public float GravityModifier { get { return _gravityModifier; } }
+    public float GravityMagnitude { get { return _gravityMagnitude; } }
     public float MaxFallSpeed { get { return _maxFallSpeed; } }
-    public float JumpHeight { get { return _jumpHeight; } }
-    public float WallJumpDistance { get { return _wallJumpSpeed; } set { _wallJumpSpeed = value; } }
+    public float BaseJumpHeight { get { return _baseJumpHeight; } }
+    public float BaseWallJumpSpeed { get { return _baseWallJumpSpeed; } }
+    public float WallJumpPenalty { get { return _wallJumpPenalty; } }
     public float MoveAcceleration { get { return _moveAcceleration; } }
     public float MaxMoveSpeed { get { return _maxMoveSpeed; } }
+    public float CurrentWallJumpSpeed { get { return _currentWallJumpSpeed; } set { _currentWallJumpSpeed = value; } }
+    public float CurrentJumpHeight { get { return _currentJumpHeight; } set { _currentJumpHeight = value; } }
     public float WallClingDirection { get { return _wallClingDirection; } set { _wallClingDirection = value; } }
+    public float WallClingForce { get { return _wallClingForce; } set { _wallClingForce = value; } }
     public float MoveInput { get { return _moveInput; } }
+    public bool CanDoubleJump {  get { return _canDoubleJump; } set { _canDoubleJump = value; } }
     public bool IsJumpPressed {  get { return _isJumpPressed; } set { _isJumpPressed = value; } }
     public bool IsMoveBlocked {  get { return _isMoveBlocked; } set { _isMoveBlocked = value; } }
     public bool IsGrounded {  get { return _isGrounded; } }
@@ -71,23 +83,20 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
+        _gravityDirection = Vector3.down;
         CheckIsGrounded();
 
         _states = new PlayerStateFactory(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();
-
-        _playerInputActions = new PlayerInputActions();
-        _playerInputActions.Player.Jump.performed += (Action) => { _isJumpPressed = true; }; 
-        _playerInputActions.Player.Jump.canceled += (Action) => { _isJumpPressed = false; }; 
-
     }
 
     private void Update()
     {
-        _moveInput = _playerInputActions.Player.Movement.ReadValue<float>();
-        CurrentState.UpdateStates();
+        IsJumpPressed = Input.GetKeyDown(KeyCode.Space);
+        _moveInput = Input.GetAxisRaw("Horizontal");
         CheckIsGrounded();
+        CurrentState.UpdateStates();
     }
 
     private void FixedUpdate()
@@ -95,34 +104,24 @@ public class PlayerStateMachine : MonoBehaviour
         CurrentState.FixedUpdateStates();
     }
 
-    private void OnEnable()
-    {
-        _playerInputActions.Player.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _playerInputActions.Player.Disable();
-    }
-
     //private void OnDrawGizmos()
     //{
     //    const float OFFSET = 0.01f;
     //    float radius = _collider.bounds.extents.x - OFFSET;
     //    float maxDistance = (_collider.bounds.extents.y / 2) + (OFFSET * 10);
-    //    _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, Vector3.down, out RaycastHit hitInfo, maxDistance);
+    //    _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, -transform.up, out RaycastHit hitInfo, maxDistance);
 
     //    if (_isGrounded)
     //    {
     //        Gizmos.color = Color.red;
-    //        Gizmos.DrawRay(_collider.bounds.center, Vector3.down * hitInfo.distance);
-    //        Gizmos.DrawWireSphere(_collider.bounds.center + Vector3.down * hitInfo.distance, radius);
+    //        Gizmos.DrawRay(_collider.bounds.center, -transform.up * hitInfo.distance);
+    //        Gizmos.DrawWireSphere(_collider.bounds.center + -transform.up * hitInfo.distance, radius);
     //    }
     //    else
     //    {
     //        Gizmos.color = Color.green;
-    //        Gizmos.DrawRay(_collider.bounds.center, Vector3.down * maxDistance);
-    //        Gizmos.DrawWireSphere(_collider.bounds.center + Vector3.down * maxDistance, radius);
+    //        Gizmos.DrawRay(_collider.bounds.center, -transform.up * maxDistance);
+    //        Gizmos.DrawWireSphere(_collider.bounds.center + -transform.up * maxDistance, radius);
     //    }
     //}
     #endregion
@@ -131,6 +130,10 @@ public class PlayerStateMachine : MonoBehaviour
         const float OFFSET = 0.01f;
         float radius = _collider.bounds.extents.x - OFFSET;
         float maxDistance = (_collider.bounds.extents.y / 2) + (OFFSET * 10);
-        _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, Vector3.down, out RaycastHit hitInfo, maxDistance);
+        _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, -transform.up, out RaycastHit hitInfo, maxDistance);
+    }
+
+    public void SetRotation(Quaternion rotation) {
+        transform.rotation = rotation;
     }
 }
