@@ -2,6 +2,17 @@ using UnityEngine;
 
 //This script holds and updates the context of the players
 public class PlayerStateMachine : MonoBehaviour {
+    public void CheckIsGrounded() {
+        const float OFFSET = 0.01f;
+        var radius = _collider.bounds.extents.x - OFFSET;
+        var maxDistance = _collider.bounds.extents.y / 2 + OFFSET * 10;
+        IsGrounded = Physics.SphereCast(_collider.bounds.center, radius, -transform.up, out var hitInfo, maxDistance);
+    }
+
+    public void SetRotation(Quaternion rotation) {
+        transform.rotation = rotation;
+    }
+
     #region Variables
 
     //Private members
@@ -36,35 +47,16 @@ public class PlayerStateMachine : MonoBehaviour {
     private float _maxMoveSpeed;
 
     //  Hidden
-    private PlayerStateFactory _states;
-    private PlayerBaseState _currentState;
-    private Rigidbody _rigidbody;
     private Collider _collider;
-    private Vector3 _gravityDirection;
-    private float _currentWallJumpSpeed;
-    private float _currentJumpHeight;
-    private float _wallClingDirection;
-    private float _wallClingForce;
-    private float _moveInput = 0f;
-    private bool _canDoubleJump;
-    private bool _isJumpPressed;
-    private bool _isMoveBlocked;
-    private bool _isGrounded;
 
     // Public accessors
-    public PlayerStateFactory States => _states;
+    public PlayerStateFactory States { get; private set; }
 
-    public PlayerBaseState CurrentState {
-        get => _currentState;
-        set => _currentState = value;
-    }
+    public PlayerBaseState CurrentState { get; set; }
 
-    public Rigidbody Rigidbody => _rigidbody;
+    public Rigidbody Rigidbody { get; private set; }
 
-    public Vector3 GravityDirection {
-        get => _gravityDirection;
-        set => _gravityDirection = value;
-    }
+    public Vector3 GravityDirection { get; set; }
 
     public float GroundedGravity => _groundedGravity;
     public float AirborneGravity => _airborneGravity;
@@ -76,63 +68,42 @@ public class PlayerStateMachine : MonoBehaviour {
     public float MoveAcceleration => _moveAcceleration;
     public float MaxMoveSpeed => _maxMoveSpeed;
 
-    public float CurrentWallJumpSpeed {
-        get => _currentWallJumpSpeed;
-        set => _currentWallJumpSpeed = value;
-    }
+    public float CurrentWallJumpSpeed { get; set; }
 
-    public float CurrentJumpHeight {
-        get => _currentJumpHeight;
-        set => _currentJumpHeight = value;
-    }
+    public float CurrentJumpHeight { get; set; }
 
-    public float WallClingDirection {
-        get => _wallClingDirection;
-        set => _wallClingDirection = value;
-    }
+    public float WallClingDirection { get; set; }
 
-    public float WallClingForce {
-        get => _wallClingForce;
-        set => _wallClingForce = value;
-    }
+    public float WallClingForce { get; set; }
 
-    public float MoveInput => _moveInput;
+    public float MoveInput { get; private set; }
 
-    public bool CanDoubleJump {
-        get => _canDoubleJump;
-        set => _canDoubleJump = value;
-    }
+    public bool CanDoubleJump { get; set; }
 
-    public bool IsJumpPressed {
-        get => _isJumpPressed;
-        set => _isJumpPressed = value;
-    }
+    public bool IsJumpPressed { get; set; }
 
-    public bool IsMoveBlocked {
-        get => _isMoveBlocked;
-        set => _isMoveBlocked = value;
-    }
+    public bool IsMoveBlocked { get; set; }
 
-    public bool IsGrounded => _isGrounded;
+    public bool IsGrounded { get; private set; }
 
     #endregion
 
     #region Monobehaviours
 
     private void Awake() {
-        _rigidbody = GetComponent<Rigidbody>();
+        Rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
-        _gravityDirection = Vector3.down;
+        GravityDirection = Vector3.down;
         CheckIsGrounded();
 
-        _states = new PlayerStateFactory(this);
-        _currentState = _states.Grounded();
-        _currentState.EnterState();
+        States = new PlayerStateFactory(this);
+        CurrentState = States.Grounded();
+        CurrentState.EnterState();
     }
 
     private void Update() {
         IsJumpPressed = Input.GetKeyDown(KeyCode.Space);
-        _moveInput = Input.GetAxisRaw("Horizontal");
+        MoveInput = Input.GetAxisRaw("Horizontal");
         CheckIsGrounded();
         CurrentState.UpdateStates();
     }
@@ -163,15 +134,4 @@ public class PlayerStateMachine : MonoBehaviour {
     //}
 
     #endregion
-
-    public void CheckIsGrounded() {
-        const float OFFSET = 0.01f;
-        var radius = _collider.bounds.extents.x - OFFSET;
-        var maxDistance = _collider.bounds.extents.y / 2 + OFFSET * 10;
-        _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, -transform.up, out var hitInfo, maxDistance);
-    }
-
-    public void SetRotation(Quaternion rotation) {
-        transform.rotation = rotation;
-    }
 }

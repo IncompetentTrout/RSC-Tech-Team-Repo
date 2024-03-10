@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GrappleHook : MonoBehaviour {
@@ -13,15 +11,15 @@ public class GrappleHook : MonoBehaviour {
         ropeMinScale,
         ropeMaxScale;
 
-    private SpringJoint joint; //the physics rope
-
-    private LineRenderer lr; //the visual rope
-
-    private Vector3 grappleAnchor; //where the rope anchors visually and physically, taken in from an outside source
-
     private bool //booleans to ensure grappling cannot be done outside of grapple areas
         canGrapple,
         isGrappling;
+
+    private Vector3 grappleAnchor; //where the rope anchors visually and physically, taken in from an outside source
+
+    private SpringJoint joint; //the physics rope
+
+    private LineRenderer lr; //the visual rope
 
     private void Start() {
         lr = gameObject.GetComponent<LineRenderer>(); //gets the line-Renderer component on the player

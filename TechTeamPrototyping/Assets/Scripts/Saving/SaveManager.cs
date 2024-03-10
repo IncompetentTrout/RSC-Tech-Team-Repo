@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SaveManager : MonoBehaviour {
     [SerializeField] private GameObject[] checkPoints; //list of checkpoints in the scene
 
+    private int currentCheckPoint; //current checkPoint the player is at in the level
+
     private GameObject
         player, //reference to the player
         startPos; //first child of GameManager, where the player spawns when they have no save data/saved checkpoints
 
     private PlayerSettings saveData = new(); //creates a saveData type initialised to default settings
-
-    private int currentCheckPoint; //current checkPoint the player is at in the level
 
     private void Awake() {
         startPos = gameObject.transform.GetChild(0).gameObject; //gets the startPos from child
@@ -41,17 +39,19 @@ public class SaveManager : MonoBehaviour {
             Application.persistentDataPath +
             "/PlayerData.json"; //creates/overwrites a PlayerData.json file (simplified explaination)
         Debug.Log(filePath);
-        System.IO.File.WriteAllText(filePath, savDat); //writes the data to the file
+        File.WriteAllText(filePath, savDat); //writes the data to the file
         Debug.Log("Saved Successfully");
     }
 
     private void LoadFromJson() //when the call is made to load the game
     {
         var filepath = Application.persistentDataPath + "/PlayerData.json"; //gets the filepath to the save data file
-        var savDat = System.IO.File.ReadAllText(filepath); //takes the file data into a string
 
-        if (JsonUtility.FromJson<PlayerSettings>(savDat) != null) //if the .json isnt null
-        {
+        string savDat = null;
+
+        if (File.Exists(filepath)) {
+            savDat = File.ReadAllText(filepath); //takes the file data into a string
+
             saveData = JsonUtility
                 .FromJson<
                     PlayerSettings>(savDat); //converts from .json to PlayerSettings class and saves in in the saveData
@@ -62,13 +62,13 @@ public class SaveManager : MonoBehaviour {
             else //if a cleared save/new game
                 player.transform.position = startPos.transform.position; //sends player to the start position
         }
-        else //if the .json is null/doesnt exist (brand new game, no saveData whatsoever)
-        {
+        else {
             player.transform.position = startPos.transform.position; //sends the player to the start position
         }
 
         Debug.Log("Save Loaded Successfully");
     }
+
 
     public void HitCheckPoint(GameObject checkPoint) //when the player hits a checkpoint this function is called
     {
@@ -90,7 +90,7 @@ public class SaveManager : MonoBehaviour {
 public class
     PlayerSettings //class that contains the data for the player, needs to be stored as a publically available class outside of this script
 {
+    public bool isNewGame = true; //initialised to true so that fresh saveData is always considered a new game.
     public int lastSavedPosition; //index of the checkpoint the player hit
     public int playerHealth; //not used but here in case player health is needed as an example of what can be saved
-    public bool isNewGame = true; //initialised to true so that fresh saveData is always considered a new game.
 }

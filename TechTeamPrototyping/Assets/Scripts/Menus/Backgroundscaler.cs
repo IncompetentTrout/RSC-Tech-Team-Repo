@@ -1,17 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Backgroundscaler : MonoBehaviour {
-    private UnityEngine.UI.Image backgroundImage;
-    private RectTransform rt;
+    private Image backgroundImage;
     private float ratio;
+    private RectTransform rt;
 
 
     private void Start() {
-        backgroundImage = GetComponent<UnityEngine.UI.Image>();
+        backgroundImage = GetComponent<Image>();
         rt = backgroundImage.rectTransform;
         ratio = backgroundImage.sprite.bounds.size.x / backgroundImage.sprite.bounds.size.y;
     }

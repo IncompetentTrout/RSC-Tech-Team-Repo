@@ -1,25 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Audio;
-
+using UnityEngine.UI;
 
 public class Pause_Menu : MonoBehaviour {
-    public GameObject pauseMenu;
-    public GameObject pauseMenuMain;
-    public GameObject SettingsMenu;
-    public static bool gameIsPaused;
-    public AudioMixer Mixer;
+    
     [SerializeField] private Slider sliderVolume;
-    public TMPro.TextMeshProUGUI VolumeText_Percentage;
-
     [SerializeField] private Slider sliderBrightness;
     [SerializeField] private Image brightnessOverlay;
+    
+    public TextMeshProUGUI VolumeText_Percentage;
+    
+    public static bool gameIsPaused;
+    
+    public GameObject pauseMenu;
+    public GameObject pauseMenuMain;
+    public GameObject settingsMenu;
+    public AudioMixer Mixer;
+    
+   
 
     private void Start() {
-        SettingsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -51,13 +53,13 @@ public class Pause_Menu : MonoBehaviour {
 
     public void settings() {
         pauseMenuMain.SetActive(false);
-        SettingsMenu.SetActive(true);
+        settingsMenu.SetActive(true);
     }
 
     // disables setting menu and enbales the main pause menu
     public void back() {
         pauseMenuMain.SetActive(true);
-        SettingsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
     }
 
     public void AdjustAudio() {

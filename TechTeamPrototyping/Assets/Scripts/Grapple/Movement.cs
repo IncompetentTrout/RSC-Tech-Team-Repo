@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
@@ -10,15 +8,14 @@ public class Movement : MonoBehaviour {
     // [SerializeField]
     //  private GameObject prefab; //used in "Shoot()"
 
-    [SerializeField]
-    private int
+    [SerializeField] private int
         layerCount; //amount of layers in the scene starting from 0, each layer is further away from camera than layer 0
-
-    private int currentLayer;
 
     protected bool
         canShiftLayers,
         isActive;
+
+    private int currentLayer;
 
     private float horizontalInput;
 
@@ -80,10 +77,9 @@ public class Movement : MonoBehaviour {
 
         if (direction + currentLayer > layerCount ||
             direction + currentLayer < 0) //if the input is outside of the amount of layers they can move
-        {
             return; //return so the player wont move
-        }
-        else if (canShiftLayers) //otherwise if they can shift
+
+        if (canShiftLayers) //otherwise if they can shift
         {
             currentLayer += direction; //current layer is now the appropriate layer
             var pos = gameObject.transform.position;

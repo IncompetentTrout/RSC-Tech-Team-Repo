@@ -33,9 +33,7 @@ public class PixellationScript : MonoBehaviour {
             new Vector2(mainCamera.pixelWidth,
                 mainCamera.pixelHeight); //changes the size of the pixelEffect to the size of the camera
 
-        var cameraSize =
-            new Vector2(mainCamera.pixelWidth / downScale,
-                mainCamera.pixelHeight / downScale); //creates a downscaled version of the main camera
+        var cameraSize = new Vector2(mainCamera.pixelWidth / downScale, mainCamera.pixelHeight / downScale); //creates a downscaled version of the main camera
         //sets the render textures to the downscaled size
         pixelTexture.width = (int)cameraSize.x;
         pixelTexture.height = (int)cameraSize.y;

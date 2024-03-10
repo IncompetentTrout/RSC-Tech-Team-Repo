@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //Using old input system for now
@@ -7,41 +5,6 @@ public class DashMovement : MonoBehaviour {
     #region Components
 
     [SerializeField] private Rigidbody rb;
-
-    #endregion
-
-    #region Movement Variables
-
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private Vector3 movement;
-    [SerializeField] private float moveSpeedMultiplier = 1f;
-
-    #endregion
-
-    #region Dash Variables
-
-    [SerializeField] private float dashTime = 0.3f;
-    [SerializeField] private float dashTimer;
-    [SerializeField] private float dashForce = 5f;
-
-    #endregion
-
-    #region Jump Variables
-
-    //not final just added for testing
-    [SerializeField] private float jumpForce = 1000f;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundedDistance = 0.4f;
-    [SerializeField] private LayerMask groundMask;
-
-    #endregion
-
-    #region Booleans
-
-    [SerializeField] private bool canDash = true;
-    [SerializeField] private bool canJump = true;
-    [SerializeField] private bool invincible = false;
-    [SerializeField] private bool grounded = true;
 
     #endregion
 
@@ -103,4 +66,39 @@ public class DashMovement : MonoBehaviour {
                     canDash = true;
         }
     }
+
+    #region Movement Variables
+
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private Vector3 movement;
+    [SerializeField] private float moveSpeedMultiplier = 1f;
+
+    #endregion
+
+    #region Dash Variables
+
+    [SerializeField] private float dashTime = 0.3f;
+    [SerializeField] private float dashTimer;
+    [SerializeField] private float dashForce = 5f;
+
+    #endregion
+
+    #region Jump Variables
+
+    //not final just added for testing
+    [SerializeField] private float jumpForce = 1000f;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundedDistance = 0.4f;
+    [SerializeField] private LayerMask groundMask;
+
+    #endregion
+
+    #region Booleans
+
+    [SerializeField] private bool canDash = true;
+    [SerializeField] private bool canJump = true;
+    [SerializeField] private bool invincible;
+    [SerializeField] private bool grounded = true;
+
+    #endregion
 }

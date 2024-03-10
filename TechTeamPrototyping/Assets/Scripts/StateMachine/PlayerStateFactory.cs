@@ -1,6 +1,6 @@
 public class PlayerStateFactory // Middleman to help with managing states
 {
-    private PlayerStateMachine _context;
+    private readonly PlayerStateMachine _context;
 
     public PlayerStateFactory(PlayerStateMachine currentContext) {
         _context = currentContext;

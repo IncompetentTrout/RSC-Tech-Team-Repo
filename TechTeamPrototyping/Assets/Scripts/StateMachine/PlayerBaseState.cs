@@ -1,8 +1,8 @@
 public abstract class PlayerBaseState {
     protected PlayerStateMachine _context;
-    protected PlayerStateFactory _factory;
-    protected PlayerBaseState _currentSuperState;
     protected PlayerBaseState _currentSubState;
+    protected PlayerBaseState _currentSuperState;
+    protected PlayerStateFactory _factory;
     protected bool _isRootState = false;
 
     public PlayerBaseState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) {

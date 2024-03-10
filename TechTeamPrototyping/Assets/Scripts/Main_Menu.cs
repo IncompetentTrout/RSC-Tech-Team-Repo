@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Mian_Menu : MonoBehaviour {
     public GameObject mainMenu;
@@ -14,7 +13,7 @@ public class Mian_Menu : MonoBehaviour {
 
     public void StartButton() {
         // Play Now Button has been pressed loads first level
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameLevel");
+        SceneManager.LoadScene("GameLevel");
     }
 
     public void TitleScreenButton() {

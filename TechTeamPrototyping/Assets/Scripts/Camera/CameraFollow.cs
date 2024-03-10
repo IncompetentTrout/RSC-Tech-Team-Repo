@@ -11,20 +11,25 @@ public class CameraFollow : MonoBehaviour {
     #region Private Variables
 
     [SerializeField] private Transform target;
-    private Vector3 velocity = Vector3.zero;
+    private Vector3 _velocity = Vector3.zero;
+    private bool _istargetNotNull;
 
     #endregion
 
     #region Methods
 
-    private void LateUpdate() {
-        if (target != null) {
-            var targetPosition = target.position + offset;
-
-            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-        }
+    private void Awake() {
+        _istargetNotNull = target != null;
     }
 
+    private void LateUpdate() {
+        if (_istargetNotNull ) {
+            
+            var targetPosition = target.position + offset;
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, smoothTime);
+        }
+    }
+    
     public void SetTarget(Transform newTarget) {
         target = newTarget;
     }
