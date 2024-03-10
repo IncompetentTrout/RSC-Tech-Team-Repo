@@ -3,55 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Using old input system for now
-public class DashMechanic : MonoBehaviour
-{
+public class DashMechanic : MonoBehaviour {
     #region Components
-    [SerializeField] Rigidbody rb;
+
+    [SerializeField] private Rigidbody rb;
+
     #endregion
 
     #region Movement Variables
-    [SerializeField] float moveSpeed = 5f;
-    [SerializeField] Vector3 movement;
-    [SerializeField] float moveSpeedMultiplier = 1f;
+
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private Vector3 movement;
+    [SerializeField] private float moveSpeedMultiplier = 1f;
+
     #endregion
 
     #region Dash Variables
-    [SerializeField] float dashTime = 0.3f;
-    [SerializeField] float dashTimer;
-    [SerializeField] float dashForce = 10f;
+
+    [SerializeField] private float dashTime = 0.3f;
+    [SerializeField] private float dashTimer;
+    [SerializeField] private float dashForce = 10f;
+
     #endregion
 
     #region Booleans
-    [SerializeField] bool canDash = true;
-    [SerializeField] bool canJump = true;
-    [SerializeField] bool invincible = false;
-    [SerializeField] bool grounded = true;
+
+    [SerializeField] private bool canDash = true;
+    [SerializeField] private bool canJump = true;
+    [SerializeField] private bool invincible = false;
+    [SerializeField] private bool grounded = true;
+
     #endregion
 
     // Start is called before the first frame update
-    void Start()
-    {
+    private void Start() {
         rb = GetComponent<Rigidbody>();
         dashTimer = 0f;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    private void Update() {
         //Standard movemnet stuff
         movement.x = Input.GetAxisRaw("Horizontal");
 
         rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
 
         Dashing();
-
     }
 
-    void Dashing()
-    {
+    private void Dashing() {
         //Dash
-        if (canDash)
-        {
+        if (canDash) {
             //Reset Dash Timer
             dashTimer = 0f;
 
@@ -59,36 +61,23 @@ public class DashMechanic : MonoBehaviour
             invincible = false;
 
             //Dash just increases movement speed, not a tp
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
+            if (Input.GetKeyDown(KeyCode.LeftShift)) {
                 canDash = false;
-                if(movement.x > 0)
-                {
+                if (movement.x > 0)
                     rb.AddForce(Vector3.right * dashForce, ForceMode.Impulse);
-                }
                 else
-                {
                     rb.AddForce(-Vector3.right * dashForce, ForceMode.Impulse);
-                }
             }
-
         }
-        else
-        {
+        else {
             //Start dash and invincibility timer
             invincible = true;
             dashTimer += Time.deltaTime;
 
             //Check if dash and invincibility done
             if (dashTimer >= dashTime)
-            {
                 if (grounded)
-                {
                     canDash = true;
-                }
-                
-                
-            }
         }
     }
 }

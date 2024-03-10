@@ -2,15 +2,14 @@ public class PlayerStateFactory // Middleman to help with managing states
 {
     private PlayerStateMachine _context;
 
-    public PlayerStateFactory(PlayerStateMachine currentContext)
-    {
+    public PlayerStateFactory(PlayerStateMachine currentContext) {
         _context = currentContext;
     }
 
     public PlayerBaseState Grounded() {
         return new PlayerGroundedState(_context, this);
     }
-    
+
     public PlayerBaseState Jumping() {
         return new PlayerJumpingState(_context, this);
     }
@@ -27,11 +26,7 @@ public class PlayerStateFactory // Middleman to help with managing states
         return new PlayerMovingState(_context, this);
     }
 
-    public PlayerBaseState WallCling()
-    {
+    public PlayerBaseState WallCling() {
         return new PlayerWallClingState(_context, this);
     }
-
-
 }
-

@@ -1,28 +1,25 @@
 using UnityEngine;
 
-public class PlayerFallingState : PlayerBaseState
-{
+public class PlayerFallingState : PlayerBaseState {
     public PlayerFallingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
-    : base(currentContext, playerStateFactory)
-    {
+        : base(currentContext, playerStateFactory) {
         _isRootState = true;
         InitialiseSubState();
     }
 
-    public override void EnterState()
-    {
+    public override void EnterState() {
     }
 
-    public override void UpdateState()
-    {
+    public override void UpdateState() {
         CheckSwitchingState();
     }
 
-    public override void FixedUpdateState(){
+    public override void FixedUpdateState() {
         HandleGravity();
     }
 
-    public override void ExitState() { }
+    public override void ExitState() {
+    }
 
     public override void CheckSwitchingState() {
         if (_context.IsGrounded) {
@@ -35,17 +32,16 @@ public class PlayerFallingState : PlayerBaseState
     }
 
     public override void InitialiseSubState() {
-        if (_context.MoveInput == 0) {
+        if (_context.MoveInput == 0)
             SetSubState(_factory.Idle());
-        }
-        else {
+        else
             SetSubState(_factory.Moving());
-        }
     }
 
     private void HandleGravity() {
         if (_context.Rigidbody.velocity.y <= -_context.MaxFallSpeed) return;
 
-        _context.Rigidbody.AddForce(_context.GravityDirection * _context.GravityMagnitude * _context.AirborneGravity, ForceMode.Acceleration);
+        _context.Rigidbody.AddForce(_context.GravityDirection * _context.GravityMagnitude * _context.AirborneGravity,
+            ForceMode.Acceleration);
     }
 }

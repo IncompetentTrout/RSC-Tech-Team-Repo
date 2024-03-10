@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class PlayerGroundedState : PlayerBaseState
-{
+public class PlayerGroundedState : PlayerBaseState {
     public PlayerGroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
-    : base(currentContext, playerStateFactory) {
+        : base(currentContext, playerStateFactory) {
         _isRootState = true;
         InitialiseSubState();
     }
@@ -21,29 +20,25 @@ public class PlayerGroundedState : PlayerBaseState
         HandleGravity();
     }
 
-    public override void ExitState() {}
+    public override void ExitState() {
+    }
 
     public override void CheckSwitchingState() {
-        if (_context.IsGrounded && _context.IsJumpPressed) {
+        if (_context.IsGrounded && _context.IsJumpPressed)
             SwitchState(_factory.Jumping());
-        }
-        else if (!_context.IsGrounded && !_context.IsJumpPressed) {
-            SwitchState(_factory.Falling());
-        }
-
-
+        else if (!_context.IsGrounded && !_context.IsJumpPressed) SwitchState(_factory.Falling());
     }
 
     public override void InitialiseSubState() {
-        if (_context.MoveInput == 0) {
+        if (_context.MoveInput == 0)
             SetSubState(_factory.Idle());
-        } else {
+        else
             SetSubState(_factory.Moving());
-        }
     }
 
     private void HandleGravity() {
-        _context.Rigidbody.AddForce(_context.GravityDirection * _context.GravityMagnitude * _context.GroundedGravity, ForceMode.Acceleration);
+        _context.Rigidbody.AddForce(_context.GravityDirection * (_context.GravityMagnitude * _context.GroundedGravity),
+            ForceMode.Acceleration);
     }
 
     private void ResetJumps() {

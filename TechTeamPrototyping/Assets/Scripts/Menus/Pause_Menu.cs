@@ -6,8 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Audio;
 
 
-public class Pause_Menu : MonoBehaviour
-{
+public class Pause_Menu : MonoBehaviour {
     public GameObject pauseMenu;
     public GameObject pauseMenuMain;
     public GameObject SettingsMenu;
@@ -19,75 +18,61 @@ public class Pause_Menu : MonoBehaviour
     [SerializeField] private Slider sliderBrightness;
     [SerializeField] private Image brightnessOverlay;
 
-    void Start()
-    {
+    private void Start() {
         SettingsMenu.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab) ){
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Tab)) {
             gameIsPaused = !gameIsPaused;
             PauseGame();
         }
 
-        if (gameIsPaused){
+        if (gameIsPaused)
             pauseMenu.SetActive(true);
-           
-            
-        }
-        else{
+        else
             pauseMenu.SetActive(false);
-        }
 
         AdjustAudio();
     }
 
-    public void resume() 
-    {
+    public void resume() {
         gameIsPaused = !gameIsPaused;
-
     }
+
     // pauses game by reducing the time that passes to 0
-    public void PauseGame(){
-        if (gameIsPaused){
+    public void PauseGame() {
+        if (gameIsPaused)
             Time.timeScale = 0;
-        }
-        else{
+        else
             Time.timeScale = 1;
-        }
     }
 
-   public void settings()
-    {
+    public void settings() {
         pauseMenuMain.SetActive(false);
         SettingsMenu.SetActive(true);
-
-        
     }
+
     // disables setting menu and enbales the main pause menu
-    public void back() 
-    {
+    public void back() {
         pauseMenuMain.SetActive(true);
         SettingsMenu.SetActive(false);
-    
     }
-    public void AdjustAudio()
-    {
+
+    public void AdjustAudio() {
         VolumeText_Percentage.text = $"{Mathf.Round(sliderVolume.value * 100)}%";
         Mixer.SetFloat("volume", sliderVolume.value);
-        
-        
     }
+
     // adjusts brightness by changing the alpha value of a dark background image
-    public void adjustBrightness() 
-    {
-        Color tempColor = brightnessOverlay.color;
+    public void adjustBrightness() {
+        var tempColor = brightnessOverlay.color;
         tempColor.a = sliderBrightness.value;
         brightnessOverlay.color = tempColor;
     }
-    public void pausebutton(){
+
+    public void pausebutton() {
         gameIsPaused = false;
     }
 }
