@@ -1,36 +1,37 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Main_Menu : MonoBehaviour {
+public class MainMenu : MonoBehaviour {
     
     public GameObject mainMenu;
-    public GameObject Title_Screen;
+    public GameObject titleScreen;
     
     private void Start() {
         TitleScreenButton();
     }
-
-
+    
     public void StartButton() {
         // Play Now Button has been pressed loads first level
         SceneManager.LoadScene("GameLevel");
     }
 
+    /*
+     * shows the title screen
+     */
     public void TitleScreenButton() {
-        // Shows title screen
         mainMenu.SetActive(false);
-        Title_Screen.SetActive(true);
+        titleScreen.SetActive(true);
     }
 
-
+    /*
+     * shows the main menu
+     */
     public void title_Screen_Play_Button() {
-        // Show Main Menu
         mainMenu.SetActive(true);
-        Title_Screen.SetActive(false);
+        titleScreen.SetActive(false);
     }
 
     public void QuitButton() {
-        // Quit Game
         Application.Quit();
     }
 }

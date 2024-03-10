@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class Pause_Menu : MonoBehaviour {
+public class PauseMenu : MonoBehaviour {
     
     [SerializeField] private Slider sliderVolume;
     [SerializeField] private Slider sliderBrightness;
@@ -18,8 +18,6 @@ public class Pause_Menu : MonoBehaviour {
     public GameObject settingsMenu;
     public AudioMixer Mixer;
     
-   
-
     private void Start() {
         settingsMenu.SetActive(false);
     }

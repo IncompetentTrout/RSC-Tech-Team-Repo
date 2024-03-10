@@ -9,7 +9,8 @@ public class DashMovement : MonoBehaviour {
 
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private Vector3 movement;
-    [SerializeField] private float moveSpeedMultiplier = 1f;
+
+    private float moveSpeedMultiplier = 1f;
 
     #endregion
 
@@ -39,26 +40,27 @@ public class DashMovement : MonoBehaviour {
     [SerializeField] private bool grounded = true;
 
     #endregion
-    
+
     #endregion
-    
+
+
+    #region Unity Methods
+
     private void Start() {
         rb = GetComponent<Rigidbody>();
         dashTimer = 0f;
     }
 
-    // Update is called once per frame
     private void Update() {
-        //Standard movemnet stuff
         movement.x = Input.GetAxisRaw("Horizontal");
 
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * (moveSpeed * Time.deltaTime));
 
         grounded = Physics.CheckSphere(groundCheck.position, groundedDistance, groundMask);
 
         Dashing();
 
-        //Jumping
+        // dealing with jumping
         if (canJump && grounded) {
             if (Input.GetKeyUp(KeyCode.Space)) {
                 canJump = !canJump;
@@ -70,35 +72,35 @@ public class DashMovement : MonoBehaviour {
         }
     }
 
+    #endregion
+
+    #region Methods
+
     private void Dashing() {
-        //Dash
-        if (canDash) {
-            //Reset Dash Timer
-            dashTimer = 0f;
-
-            //Reset Invincibility
-            invincible = false;
-
-            //Dash just increases movement speed, not a tp
-            if (Input.GetKeyDown(KeyCode.LeftShift)) {
-                canDash = false;
-                if (movement.x > 0)
-                    rb.AddForce(Vector3.right * dashForce, ForceMode.Impulse);
-                else
-                    rb.AddForce(-Vector3.right * dashForce, ForceMode.Impulse);
-            }
+        if (!canDash) {
+            HandleNonDashingState();
+            return;
         }
-        else {
-            //Start dash and invincibility timer
-            invincible = true;
-            dashTimer += Time.deltaTime;
 
-            //Check if dash and invincibility done
-            if (dashTimer >= dashTime)
-                if (grounded)
-                    canDash = true;
-        }
+        // Reset dash state assuming canDash is true.
+        dashTimer = 0f;
+        invincible = false;
+
+        if (!Input.GetKeyDown(KeyCode.LeftShift)) return;
+
+        canDash = false;
+        Vector3 dashDirection = movement.x > 0 ? Vector3.right : -Vector3.right;
+        rb.AddForce(dashDirection * dashForce, ForceMode.Impulse);
     }
 
-   
+    private void HandleNonDashingState() {
+        invincible = true;
+        dashTimer += Time.deltaTime;
+
+        if (dashTimer >= dashTime && grounded) {
+            canDash = true;
+        }
+    }
+    
+    #endregion
 }
