@@ -1,106 +1,104 @@
 using UnityEngine;
 
 public class DashMovement : MonoBehaviour {
-    #region Components
+	#region Components
 
-    [SerializeField] private Rigidbody rb;
+	[SerializeField] private Rigidbody rb;
 
-    #region Movement Variables
+	#region Movement Variables
 
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private Vector3 movement;
+	[SerializeField] private float moveSpeed = 5f;
+	[SerializeField] private Vector3 movement;
 
-    private float moveSpeedMultiplier = 1f;
+	private float moveSpeedMultiplier = 1f;
 
-    #endregion
+	#endregion
 
-    #region Dash Variables
+	#region Dash Variables
 
-    [SerializeField] private float dashTime = 0.3f;
-    [SerializeField] private float dashTimer;
-    [SerializeField] private float dashForce = 5f;
+	[SerializeField] private float dashTime = 0.3f;
+	[SerializeField] private float dashTimer;
+	[SerializeField] private float dashForce = 5f;
 
-    #endregion
+	#endregion
 
-    #region Jump Variables
+	#region Jump Variables
 
-    //not final just added for testing
-    [SerializeField] private float jumpForce = 1000f;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundedDistance = 0.4f;
-    [SerializeField] private LayerMask groundMask;
+	//not final just added for testing
+	[SerializeField] private float jumpForce = 1000f;
+	[SerializeField] private Transform groundCheck;
+	[SerializeField] private float groundedDistance = 0.4f;
+	[SerializeField] private LayerMask groundMask;
 
-    #endregion
+	#endregion
 
-    #region Booleans
+	#region Booleans
 
-    [SerializeField] private bool canDash = true;
-    [SerializeField] private bool canJump = true;
-    [SerializeField] private bool invincible;
-    [SerializeField] private bool grounded = true;
+	[SerializeField] private bool canDash = true;
+	[SerializeField] private bool canJump = true;
+	[SerializeField] private bool invincible;
+	[SerializeField] private bool grounded = true;
 
-    #endregion
+	#endregion
 
-    #endregion
+	#endregion
 
 
-    #region Unity Methods
+	#region Unity Methods
 
-    private void Start() {
-        rb = GetComponent<Rigidbody>();
-        dashTimer = 0f;
-    }
+	private void Start() {
+		rb = GetComponent<Rigidbody>();
+		dashTimer = 0f;
+	}
 
-    private void Update() {
-        movement.x = Input.GetAxisRaw("Horizontal");
+	private void Update() {
+		movement.x = Input.GetAxisRaw("Horizontal");
 
-        rb.MovePosition(rb.position + movement * (moveSpeed * Time.deltaTime));
+		rb.MovePosition(rb.position + movement * (moveSpeed * Time.deltaTime));
 
-        grounded = Physics.CheckSphere(groundCheck.position, groundedDistance, groundMask);
+		grounded = Physics.CheckSphere(groundCheck.position, groundedDistance, groundMask);
 
-        Dashing();
+		Dashing();
 
-        // dealing with jumping
-        if (canJump && grounded) {
-            if (Input.GetKeyUp(KeyCode.Space)) {
-                canJump = !canJump;
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            }
-        }
-        else {
-            canJump = !canJump;
-        }
-    }
+		// dealing with jumping
+		if (canJump && grounded) {
+			if (Input.GetKeyUp(KeyCode.Space)) {
+				canJump = !canJump;
+				rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+			}
+		}
+		else {
+			canJump = !canJump;
+		}
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    private void Dashing() {
-        if (!canDash) {
-            HandleNonDashingState();
-            return;
-        }
+	private void Dashing() {
+		if (!canDash) {
+			HandleNonDashingState();
+			return;
+		}
 
-        // Reset dash state assuming canDash is true.
-        dashTimer = 0f;
-        invincible = false;
+		// Reset dash state assuming canDash is true.
+		dashTimer = 0f;
+		invincible = false;
 
-        if (!Input.GetKeyDown(KeyCode.LeftShift)) return;
+		if (!Input.GetKeyDown(KeyCode.LeftShift)) return;
 
-        canDash = false;
-        Vector3 dashDirection = movement.x > 0 ? Vector3.right : -Vector3.right;
-        rb.AddForce(dashDirection * dashForce, ForceMode.Impulse);
-    }
+		canDash = false;
+		var dashDirection = movement.x > 0 ? Vector3.right : -Vector3.right;
+		rb.AddForce(dashDirection * dashForce, ForceMode.Impulse);
+	}
 
-    private void HandleNonDashingState() {
-        invincible = true;
-        dashTimer += Time.deltaTime;
+	private void HandleNonDashingState() {
+		invincible = true;
+		dashTimer += Time.deltaTime;
 
-        if (dashTimer >= dashTime && grounded) {
-            canDash = true;
-        }
-    }
-    
-    #endregion
+		if (dashTimer >= dashTime && grounded) canDash = true;
+	}
+
+	#endregion
 }

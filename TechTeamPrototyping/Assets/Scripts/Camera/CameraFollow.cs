@@ -1,38 +1,37 @@
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
-    #region Public Variables
+	#region Public Variables
 
-    public Vector3 offset;
-    public float smoothTime = 0.3f;
+	public Vector3 offset;
+	public float smoothTime = 0.3f;
 
-    #endregion
+	#endregion
 
-    #region Private Variables
+	#region Private Variables
 
-    [SerializeField] private Transform target;
-    private Vector3 _velocity = Vector3.zero;
-    private bool _istargetNotNull;
+	[SerializeField] private Transform target;
+	private Vector3 _velocity = Vector3.zero;
+	private bool _istargetNotNull;
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    private void Awake() {
-        _istargetNotNull = target != null;
-    }
+	private void Awake() {
+		_istargetNotNull = target != null;
+	}
 
-    private void LateUpdate() {
-        if (_istargetNotNull ) {
-            
-            var targetPosition = target.position + offset;
-            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, smoothTime);
-        }
-    }
-    
-    public void SetTarget(Transform newTarget) {
-        target = newTarget;
-    }
+	private void LateUpdate() {
+		if (_istargetNotNull) {
+			var targetPosition = target.position + offset;
+			transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, smoothTime);
+		}
+	}
 
-    #endregion
+	public void SetTarget(Transform newTarget) {
+		target = newTarget;
+	}
+
+	#endregion
 }
