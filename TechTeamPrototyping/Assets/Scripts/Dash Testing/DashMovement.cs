@@ -1,49 +1,32 @@
 using UnityEngine;
 
 public class DashMovement : MonoBehaviour {
-	#region Components
-
+	
+	#region Configurable Variables
+	
 	[SerializeField] private Rigidbody rb;
-
-	#region Movement Variables
-
 	[SerializeField] private float moveSpeed = 5f;
-	[SerializeField] private Vector3 movement;
-
-	private float moveSpeedMultiplier = 1f;
-
-	#endregion
-
-	#region Dash Variables
-
 	[SerializeField] private float dashTime = 0.3f;
-	[SerializeField] private float dashTimer;
 	[SerializeField] private float dashForce = 5f;
-
-	#endregion
-
-	#region Jump Variables
-
-	//not final just added for testing
 	[SerializeField] private float jumpForce = 1000f;
 	[SerializeField] private Transform groundCheck;
 	[SerializeField] private float groundedDistance = 0.4f;
 	[SerializeField] private LayerMask groundMask;
-
+	
 	#endregion
-
-	#region Booleans
-
-	[SerializeField] private bool canDash = true;
-	[SerializeField] private bool canJump = true;
-	[SerializeField] private bool invincible;
-	[SerializeField] private bool grounded = true;
-
+	
+	#region Variables
+	
+	private float dashTimer;
+	private Vector3 movement;
+	private float moveSpeedMultiplier = 1f;
+	private bool canDash = true;
+	private bool canJump = true;
+	private bool invincible;
+	private bool grounded = true;
+	
 	#endregion
-
-	#endregion
-
-
+	
 	#region Unity Methods
 
 	private void Start() {
