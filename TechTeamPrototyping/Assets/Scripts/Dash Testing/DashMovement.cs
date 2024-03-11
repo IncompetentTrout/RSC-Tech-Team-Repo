@@ -1,9 +1,8 @@
 using UnityEngine;
 
 public class DashMovement : MonoBehaviour {
-	
 	#region Configurable Variables
-	
+
 	[SerializeField] private Rigidbody rb;
 	[SerializeField] private float moveSpeed = 5f;
 	[SerializeField] private float dashTime = 0.3f;
@@ -12,11 +11,11 @@ public class DashMovement : MonoBehaviour {
 	[SerializeField] private Transform groundCheck;
 	[SerializeField] private float groundedDistance = 0.4f;
 	[SerializeField] private LayerMask groundMask;
-	
+
 	#endregion
-	
+
 	#region Variables
-	
+
 	private float dashTimer;
 	private Vector3 movement;
 	private float moveSpeedMultiplier = 1f;
@@ -24,9 +23,9 @@ public class DashMovement : MonoBehaviour {
 	private bool canJump = true;
 	private bool invincible;
 	private bool grounded = true;
-	
+
 	#endregion
-	
+
 	#region Unity Methods
 
 	private void Start() {

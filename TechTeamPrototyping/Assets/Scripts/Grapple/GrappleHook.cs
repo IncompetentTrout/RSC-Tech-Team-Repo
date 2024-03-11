@@ -35,8 +35,7 @@ public class GrappleHook : MonoBehaviour {
 	}
 
 	private void GrappleBegin() {
-		if (grappleAnchor != Vector3.zero) //if the grapple point is not "Reset"
-		{
+		if (grappleAnchor != Vector3.zero) {
 			//Adds a springJoint component and connects it to the desired grappleAnchor
 			joint = gameObject.AddComponent<SpringJoint>();
 			joint.autoConfigureConnectedAnchor = false;
@@ -60,7 +59,6 @@ public class GrappleHook : MonoBehaviour {
 			isGrappling = true;
 		}
 	}
-
 
 	private void GrappleEnd() {
 		//rope has no more need of existing visually, no more points needed

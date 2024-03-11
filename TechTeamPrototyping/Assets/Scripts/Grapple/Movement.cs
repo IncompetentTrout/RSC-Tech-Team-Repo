@@ -4,29 +4,29 @@ using UnityEngine;
 // ReSharper disable All
 
 public class Movement : MonoBehaviour {
-	[SerializeField] private float _speed, layerChangeDist;
+	#region Variables
 
-	// [SerializeField]
-	//  private GameObject prefab; //used in "Shoot()"
+	[SerializeField] private float _speed, layerChangeDist;
 
 	[SerializeField]
 	private int
 		layerCount; //amount of layers in the scene starting from 0, each layer is further away from camera than layer 0
 
-	protected bool
-		canShiftLayers,
-		isActive;
-
+	protected bool canShiftLayers, isActive;
 	private int currentLayer;
-
 	private float horizontalInput;
 
 	protected Rigidbody rb;
 
+	/*
+	 [SerializeField]
+	 private GameObject prefab; //used in "Shoot()"
+	 */
+
+	#endregion
+
 	private void Start() {
 		rb = GetComponent<Rigidbody>();
-
-		// player by default will be on layer 1 (can move towards camera by default)
 		currentLayer = 1;
 	}
 

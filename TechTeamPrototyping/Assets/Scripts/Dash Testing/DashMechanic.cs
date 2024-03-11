@@ -1,23 +1,22 @@
 using UnityEngine;
 
 public class DashMechanic : MonoBehaviour {
-	
 	#region Variables
-	
+
 	[SerializeField] private Rigidbody rb;
-	
+
 	[SerializeField] private float moveSpeed = 5f;
 	[SerializeField] private float dashTime = 0.3f;
 	[SerializeField] private float dashForce = 10f;
-	
+
 	private Vector3 movement;
 	private float dashTimer;
 	private bool canDash = true;
 	private bool invincible;
 	private bool grounded = true;
-	
+
 	#endregion
-	
+
 	#region Unity Methods
 
 	private void Start() {
@@ -33,9 +32,9 @@ public class DashMechanic : MonoBehaviour {
 	private void FixedUpdate() {
 		rb.MovePosition(rb.position + movement * (moveSpeed * Time.deltaTime));
 	}
-	
+
 	#endregion
-	
+
 	#region Methods
 
 	private void Dashing() {
@@ -62,6 +61,6 @@ public class DashMechanic : MonoBehaviour {
 			invincible = false;
 		}
 	}
-	
+
 	#endregion
 }

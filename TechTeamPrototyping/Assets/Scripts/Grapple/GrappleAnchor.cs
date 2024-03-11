@@ -1,8 +1,14 @@
 using UnityEngine;
 
 public class GrappleAnchor : MonoBehaviour {
-	private GameObject enteredPlayer; //ref to the player that enters the area
-	private GrappleHook hook; //ref to the GrappleHook script on the player
+	#region Variables
+
+	private GameObject enteredPlayer;
+	private GrappleHook hook;
+
+	#endregion
+
+	#region Unity Methods
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player" && enteredPlayer == null) {
@@ -19,4 +25,6 @@ public class GrappleAnchor : MonoBehaviour {
 			enteredPlayer = null;
 		}
 	}
+
+	#endregion
 }
