@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RedButton : MonoBehaviour
 {
+    Puzzle pS;
+
 
     public GameObject player;
     public GameObject button;
@@ -30,7 +32,7 @@ public class RedButton : MonoBehaviour
         { 
             buttonSwitched = true;
             GetComponent<MeshRenderer>().material = activatedcolour;
-            
+            pS.switches.Add(gameObject);
         }
     }
 
@@ -40,5 +42,12 @@ public class RedButton : MonoBehaviour
         {
             PressButton();
         }
+    }
+
+    public void ResetButton()
+    {
+        GetComponent<MeshRenderer>().material = colour;
+        buttonSwitched = false;
+        pS.switches.Remove(gameObject);
     }
 }

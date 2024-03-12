@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class YellowButton : MonoBehaviour
+public class PuzzleButtonv2 : MonoBehaviour
 {
+    public Puzzle pS;
 
     public GameObject player;
     public GameObject button;
@@ -26,11 +27,12 @@ public class YellowButton : MonoBehaviour
 
     private void PressButton()
     {
-        if (canPressButton) 
-        { 
+        if (canPressButton)
+        {
             buttonSwitched = true;
             GetComponent<MeshRenderer>().material = activatedcolour;
-            
+            pS.switches.Add(gameObject);
+
         }
     }
 
@@ -40,5 +42,14 @@ public class YellowButton : MonoBehaviour
         {
             PressButton();
         }
+
+
+    }
+
+    public void ResetButton()
+    {
+        GetComponent<MeshRenderer>().material = colour;
+        buttonSwitched = false;
+        pS.switches.Remove(gameObject);
     }
 }

@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlueButton : MonoBehaviour
+public class PuzzleButton : MonoBehaviour
 {
-
     Puzzle pS;
 
     public GameObject player;
@@ -33,6 +32,7 @@ public class BlueButton : MonoBehaviour
             buttonSwitched = true;
             GetComponent<MeshRenderer>().material = activatedcolour;
             pS.switches.Add(gameObject);
+            
         }
     }
 
@@ -42,6 +42,8 @@ public class BlueButton : MonoBehaviour
         {
             PressButton();
         }
+
+
     }
 
     public void ResetButton()

@@ -5,6 +5,8 @@ using UnityEngine;
 public class GreenButton : MonoBehaviour
 {
 
+    Puzzle pS;
+
     public GameObject player;
     public GameObject button;
     public bool buttonSwitched;
@@ -30,7 +32,7 @@ public class GreenButton : MonoBehaviour
         { 
             buttonSwitched = true;
             GetComponent<MeshRenderer>().material = activatedcolour;
-            
+            pS.switches.Add(gameObject);
         }
     }
 
@@ -40,5 +42,12 @@ public class GreenButton : MonoBehaviour
         {
             PressButton();
         }
+    }
+
+    public void ResetButton()
+    {
+        GetComponent<MeshRenderer>().material = colour;
+        buttonSwitched = false;
+        pS.switches.Remove(gameObject);
     }
 }

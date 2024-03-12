@@ -512,7 +512,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 116381326}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.91, z: -13.45}
+  m_LocalPosition: {x: 8.254, y: 2.91, z: -15.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -724,7 +724,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822063957}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.38, z: 4.05}
+  m_LocalPosition: {x: 0, y: 1.38, z: 2.25}
   m_LocalScale: {x: 10, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -887,3 +887,80 @@ Transform:
   m_Father: {fileID: 108298555}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6381626315471460422
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 163880937852747168, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_Name
+      value: Puzzle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072191469959928025, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 108298546}
+    - target: {fileID: 3246574639515964624, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 108298546}
+    - target: {fileID: 6157941503431489954, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 108298546}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.204511
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.668
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535536710162880379, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139101158105195623, guid: fa51ae399823cce498fb5941023445b6, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 108298546}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa51ae399823cce498fb5941023445b6, type: 3}
