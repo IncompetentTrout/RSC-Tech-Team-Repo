@@ -8,7 +8,6 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void EnterState() {
         Debug.Log("now Idle");
-        _context.IsMoveBlocked = false;
     }
 
     public override void UpdateState() { 
@@ -22,7 +21,7 @@ public class PlayerIdleState : PlayerBaseState
     public override void ExitState() { }
 
     public override void CheckSwitchingState() { 
-        if (_context.MoveInput != 0) {
+        if (_context.MoveInput != 0) {  //might change when adding controller input
             SwitchState(_factory.Moving());
         }
     }
@@ -30,17 +29,14 @@ public class PlayerIdleState : PlayerBaseState
     public override void InitialiseSubState() { }
 
     private void HandleMovement() {
-        if (_context.HorizontalComponent.magnitude == 0) return;
+        if (Mathf.Abs(_context.Rigidbody.velocity.x) == 0) return;
 
         //Slow down horizontal movement
-        _context.Rigidbody.AddForce(-_context.HorizontalComponent.normalized * _context.MoveAcceleration, ForceMode.Acceleration);
-        _context.HorizontalComponent = _context.Rigidbody.velocity - _context.VerticalComponent;
-        _context.HorizontalComponent -= _context.HorizontalComponent.normalized * _context.MoveAcceleration * Time.fixedDeltaTime;
-
+        _context.Rigidbody.AddForce(Vector3.right * -_context.Rigidbody.velocity.normalized.x * _context.MoveAcceleration, ForceMode.Acceleration);
+        
         //minimize sliding
-        if (_context.HorizontalComponent.magnitude <= 1f) {
-            _context.Rigidbody.AddForce(-_context.HorizontalComponent, ForceMode.VelocityChange);
-            _context.HorizontalComponent = Vector3.zero;
+        if (Mathf.Abs(_context.Rigidbody.velocity.x) <= 1) {
+            _context.Rigidbody.velocity = new Vector3(0, _context.Rigidbody.velocity.y, 0);
         }
     }
 }

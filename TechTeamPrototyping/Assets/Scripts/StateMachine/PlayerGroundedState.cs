@@ -10,7 +10,6 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void EnterState() {
         Debug.Log("now Grounded");
-        _context.VerticalComponent = Vector3.zero;
         ResetJumps();
     }
 

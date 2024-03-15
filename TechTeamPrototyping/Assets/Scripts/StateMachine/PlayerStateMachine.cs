@@ -41,8 +41,6 @@ public class PlayerStateMachine : MonoBehaviour
     private Rigidbody _rigidbody;
     private Collider _collider;
     private Vector3 _gravityDirection;
-    private Vector3 _horizontalComponent;
-    private Vector3 _verticalComponent;
     private float _currentWallJumpSpeed;
     private float _currentJumpHeight;
     private float _wallClingDirection;
@@ -58,8 +56,6 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public Rigidbody Rigidbody { get { return _rigidbody; } }
     public Vector3 GravityDirection { get { return _gravityDirection; } set { _gravityDirection = value; } }
-    public Vector3 HorizontalComponent { get { return _horizontalComponent; } set { _horizontalComponent = value; } }
-    public Vector3 VerticalComponent { get { return _verticalComponent; } set { _verticalComponent = value; } }
     public float GroundedGravity { get { return _groundedGravity; } }
     public float AirborneGravity { get { return _airborneGravity; } }
     public float GravityMagnitude { get { return _gravityMagnitude; } }
@@ -88,8 +84,6 @@ public class PlayerStateMachine : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
         _gravityDirection = Vector3.down;
-        _horizontalComponent = Vector3.zero; 
-        _verticalComponent = Vector3.zero;
         CheckIsGrounded();
 
         _states = new PlayerStateFactory(this);
@@ -107,7 +101,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        print(_isGrounded + " " + _isMoveBlocked);
         CurrentState.FixedUpdateStates();
     }
 
@@ -117,6 +110,7 @@ public class PlayerStateMachine : MonoBehaviour
     //    float radius = _collider.bounds.extents.x - OFFSET;
     //    float maxDistance = (_collider.bounds.extents.y / 2) + (OFFSET * 10);
     //    _isGrounded = Physics.SphereCast(_collider.bounds.center, radius, -transform.up, out RaycastHit hitInfo, maxDistance);
+
     //    if (_isGrounded)
     //    {
     //        Gizmos.color = Color.red;
